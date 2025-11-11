@@ -1,0 +1,39 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Recipe {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  title       String
+  subtitle    String?
+  content     String       // Markdown sadržaj recepta
+  ingredients Ingredient[]
+  tags        Tag[]
+  duration    Int?         // vrijeme pripreme u minutama
+  price       Float?       // cijena po porciji u eurima
+  rating      Float?       // 0–5, može imati decimale (4.32)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Ingredient {
+  id        String  @id @default(cuid())
+  label     String
+  quantity  String?
+  recipeId  String
+  recipe    Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model Tag {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  recipes  Recipe[]  // many-to-many implicit relation s Recipe modelom
+}
