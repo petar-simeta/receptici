@@ -61,6 +61,7 @@ export function RecipeForm({
   );
   const [rating, setRating] = useState(recipe?.rating ?? 3.5);
   const [content, setContent] = useState(recipe?.content || "");
+  const [contentError, setContentError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchTags() {
@@ -132,9 +133,13 @@ export function RecipeForm({
 
     const trimmedContent = content.trim();
     if (!trimmedContent) {
-      alert("Please add instructions for the recipe (content is required).");
+      setContentError(
+        "Please add instructions for the recipe (this field is required)."
+      );
       return;
     }
+
+    setContentError(null);
 
     onSubmit({
       title,
@@ -318,7 +323,18 @@ export function RecipeForm({
               Instructions (Markdown)
               <span className="text-red-500 -ml-2">*</span>
             </Label>
-            <MarkdownEditor value={content} onChange={setContent} />
+            <MarkdownEditor
+              value={content}
+              onChange={(value) => {
+                setContent(value);
+                if (contentError) {
+                  setContentError(null);
+                }
+              }}
+            />
+            {contentError && (
+              <p className="text-sm text-red-600">{contentError}</p>
+            )}
           </div>
         </CardContent>
       </Card>
