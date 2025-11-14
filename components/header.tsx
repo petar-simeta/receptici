@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, Dices } from "lucide-react";
+import { Plus, Dices, Hamburger } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -36,9 +36,10 @@ export function Header() {
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="text-2xl font-bold text-teal-700 hover:text-teal-800 transition-colors"
+            className="flex items-center gap-2 text-2xl font-bold text-teal-700 hover:text-teal-800 transition-colors"
           >
-            Recipe App
+            <Hamburger size={24} />
+            <span>Receptići</span>
           </Link>
           <div className="flex gap-2">
             <Button
@@ -47,14 +48,14 @@ export function Header() {
               className="hover:bg-teal-50 hover:text-teal-700 hover:border-teal-300 bg-transparent"
             >
               <Dices size={18} className="md:mr-2" />
-              <span className="hidden md:inline">Random recipe</span>
+              <span className="hidden md:inline">Random receptić</span>
             </Button>
             <Button
               onClick={() => router.push("/recipe/new")}
               className="bg-teal-600 hover:bg-teal-700"
             >
               <Plus size={18} className="md:mr-2" />
-              <span className="hidden md:inline">New recipe</span>
+              <span className="hidden md:inline">New receptić</span>
             </Button>
           </div>
         </div>

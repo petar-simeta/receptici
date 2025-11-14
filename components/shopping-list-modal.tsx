@@ -42,7 +42,11 @@ export function ShoppingListModal({
   const copyMissingIngredients = async () => {
     const missingIngredients = ingredients
       .filter((_, index) => !checkedItems.has(index))
-      .map((ing) => `${ing.label} - ${ing.quantity}`)
+      .map((ing) =>
+        ing.quantity && ing.quantity.trim().length > 0
+          ? `${ing.label} - ${ing.quantity}`
+          : ing.label
+      )
       .join("\n");
 
     try {
@@ -83,7 +87,10 @@ export function ShoppingListModal({
                 className="flex-1 cursor-pointer text-sm"
               >
                 <span className={checkedItems.has(index) ? "line-through" : ""}>
-                  {ingredient.label} - {ingredient.quantity}
+                  {ingredient.label}
+                  {ingredient.quantity && ingredient.quantity.trim().length > 0
+                    ? ` - ${ingredient.quantity}`
+                    : ""}
                 </span>
               </label>
             </div>

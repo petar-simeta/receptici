@@ -252,8 +252,7 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
 
       <div>
         <p className="mb-4 text-sm text-teal-700">
-          Showing {filteredAndSortedRecipes.length} recipe
-          {filteredAndSortedRecipes.length !== 1 ? "s" : ""}
+          Showing {filteredAndSortedRecipes.length} receptića
         </p>
         {filteredAndSortedRecipes.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

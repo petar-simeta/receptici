@@ -150,7 +150,7 @@ export default function EditRecipePage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl p-6 space-y-6">
-        <h1 className="text-4xl font-bold text-teal-700">Edit Recipe</h1>
+        <h1 className="text-4xl font-bold text-teal-700">Edit receptić</h1>
         <RecipeForm
           recipe={recipe}
           onSubmit={handleSubmit}

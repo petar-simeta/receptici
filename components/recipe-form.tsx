@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useEffect, useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, X, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -62,6 +62,7 @@ export function RecipeForm({
   const [rating, setRating] = useState(recipe?.rating ?? 3.5);
   const [content, setContent] = useState(recipe?.content || "");
   const [contentError, setContentError] = useState<string | null>(null);
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     async function fetchTags() {
@@ -99,6 +100,17 @@ export function RecipeForm({
 
   const removeIngredient = (index: number) => {
     setIngredients(ingredients.filter((_, i) => i !== index));
+  };
+
+  const handleDrop = (to: number) => {
+    setIngredients((prev) => {
+      if (draggingIndex === null || draggingIndex === to) return prev;
+      const updated = [...prev];
+      const [moved] = updated.splice(draggingIndex, 1);
+      updated.splice(to, 0, moved);
+      return updated;
+    });
+    setDraggingIndex(null);
   };
 
   const updateIngredient = (
@@ -148,7 +160,12 @@ export function RecipeForm({
       duration,
       pricePerPortion,
       rating,
-      ingredients: ingredients.filter((ing) => ing.label && ing.quantity),
+      ingredients: ingredients
+        .filter((ing) => ing.label.trim().length > 0)
+        .map((ing) => ({
+          label: ing.label.trim(),
+          quantity: ing.quantity.trim(),
+        })),
       content: trimmedContent,
     });
   };
@@ -186,18 +203,25 @@ export function RecipeForm({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <Label>Ingredients</Label>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={addIngredient}
-              >
-                <Plus size={16} className="mr-1" />
-                Add ingredient
-              </Button>
             </div>
             {ingredients.map((ingredient, index) => (
-              <div key={index} className="flex gap-2">
+              <div
+                key={index}
+                className={`flex items-center gap-2 ${
+                  draggingIndex === index ? "opacity-70" : ""
+                }`}
+                draggable
+                onDragStart={() => setDraggingIndex(index)}
+                onDragEnd={() => setDraggingIndex(null)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => handleDrop(index)}
+              >
+                <button
+                  type="button"
+                  className="cursor-grab text-gray-400 hover:text-gray-600"
+                >
+                  <GripVertical size={16} />
+                </button>
                 <Input
                   placeholder="Label (e.g., Tomatoes)"
                   value={ingredient.label}
@@ -225,6 +249,17 @@ export function RecipeForm({
                 </Button>
               </div>
             ))}
+            <div className="pt-1">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addIngredient}
+              >
+                <Plus size={16} className="mr-1" />
+                Add ingredient
+              </Button>
+            </div>
           </div>
 
           <div className="space-y-2">

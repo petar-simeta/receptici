@@ -31,7 +31,7 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
           <Link href={`/recipe/${recipe.slug}/edit`}>
             <Button variant="outline">
               <Edit size={16} className="mr-2" />
-              Edit recipe
+              Edit receptić
             </Button>
           </Link>
         </div>
@@ -165,6 +165,18 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
         }
         :global(.recipe-markdown li) {
           margin-bottom: 0.375rem;
+        }
+        :global(.recipe-markdown ul) {
+          list-style-type: disc;
+        }
+        :global(.recipe-markdown ol) {
+          list-style-type: decimal;
+        }
+
+        :global(.recipe-markdown ol li::marker) {
+          color: #0f766e;
+          font-size: 0.75rem;
+          font-weight: 600;
         }
         :global(.recipe-markdown strong) {
           font-weight: 600;
