@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import type { Ingredient } from "@/lib/types";
 
 interface ShoppingListModalProps {
@@ -27,7 +27,6 @@ export function ShoppingListModal({
   ingredients,
 }: ShoppingListModalProps) {
   const [checkedItems, setCheckedItems] = useState<Set<number>>(new Set());
-  const { toast } = useToast();
 
   const toggleItem = (index: number) => {
     const newChecked = new Set(checkedItems);
@@ -51,15 +50,13 @@ export function ShoppingListModal({
 
     try {
       await navigator.clipboard.writeText(missingIngredients);
-      toast({
-        title: "Copied to clipboard!",
-        description: "Missing ingredients have been copied.",
+      toast.success("Copied to clipboard ✓", {
+        description: "Your shopping list is ready to paste.",
       });
       onOpenChange(false);
     } catch (err) {
-      toast({
-        title: "Failed to copy",
-        description: "Please try again.",
+      toast.error("Copy failed", {
+        description: "Clipboard permissions blocked. Try manually.",
       });
     }
   };
