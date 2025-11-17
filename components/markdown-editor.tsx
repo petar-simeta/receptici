@@ -6,7 +6,6 @@ import {
   Italic,
   List,
   ListOrdered,
-  Heading2,
   Heading3,
   Heading4,
 } from "lucide-react";
@@ -101,15 +100,6 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           type="button"
           variant="outline"
           size="sm"
-          onClick={() => prefixLines("## ")}
-          title="Heading 2"
-        >
-          <Heading2 size={16} />
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
           onClick={() => prefixLines("### ")}
           title="Heading 3"
         >
@@ -167,13 +157,6 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           font-weight: 700;
           margin-top: 1rem;
           margin-bottom: 0.75rem;
-          color: #0f766e;
-        }
-        .markdown-preview :global(h2) {
-          font-size: 1.125rem;
-          font-weight: 700;
-          margin-top: 0.875rem;
-          margin-bottom: 0.625rem;
           color: #0f766e;
         }
         .markdown-preview :global(h3) {

@@ -20,8 +20,8 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-6xl p-6 space-y-6">
-        <div className="flex items-start justify-between gap-4">
+      <div className="mx-auto max-w-6xl p-4 space-y-3">
+        <div className="flex items-start justify-between gap-4 mt-0">
           <div>
             <h1 className="text-4xl font-bold text-teal-700">{recipe.title}</h1>
             <p className="mt-2 text-lg text-muted-foreground">
@@ -36,13 +36,15 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
           </Link>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
+        <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
           {/* Left Sidebar */}
           <div className="space-y-4">
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-3">
                 <div>
-                  <h3 className="mb-3 font-semibold">Ingredients</h3>
+                  <h3 className="sidebar-title mb-3 font-semibold bg-teal-50 pl-3 pr-5 py-1 rounded">
+                    Ingredients
+                  </h3>
                   <ul className="space-y-2">
                     {recipe.ingredients.map((ingredient) => (
                       <li key={ingredient.id} className="text-sm">
@@ -70,9 +72,11 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
             </Card>
 
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-3">
                 <div>
-                  <h3 className="mb-2 font-semibold">Tags</h3>
+                  <h3 className="sidebar-title mb-2 font-semibold bg-teal-50 pl-3 pr-5 py-1 rounded">
+                    Tags
+                  </h3>
                   <div className="flex flex-wrap gap-1.5">
                     {recipe.tags.map((tag) => (
                       <TagBadge key={tag.id} tag={tag.name} />
@@ -80,8 +84,10 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="mb-3 font-semibold">Details</h3>
+                <div className="mt-6">
+                  <h3 className="sidebar-title mb-3 font-semibold bg-teal-50 pl-3 pr-5 py-1 rounded">
+                    Details
+                  </h3>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
                       <Clock size={16} className="text-teal-600" />
@@ -95,7 +101,9 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
                       <Euro size={16} className="text-teal-600" />
                       <span>
                         {recipe.price != null
-                          ? `€${recipe.price.toFixed(2)} per portion`
+                          ? `${recipe.price
+                              .toFixed(2)
+                              .replace(".", ",")} EUR per portion`
                           : "N/A"}
                       </span>
                     </div>
@@ -110,7 +118,8 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
 
           {/* Main Content */}
           <Card>
-            <CardContent className="pt-6">
+            <CardContent>
+              <h2 className="cooking-title mb-4">Cooking instruction</h2>
               <div className="recipe-markdown">
                 <ReactMarkdown>{recipe.content}</ReactMarkdown>
               </div>
@@ -131,13 +140,6 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
           font-weight: 700;
           margin-top: 1.5rem;
           margin-bottom: 1rem;
-          color: #0f766e;
-        }
-        :global(.recipe-markdown h2) {
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin-top: 1.25rem;
-          margin-bottom: 0.875rem;
           color: #0f766e;
         }
         :global(.recipe-markdown h3) {
@@ -183,6 +185,22 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
         }
         :global(.recipe-markdown em) {
           font-style: italic;
+        }
+        :global(.sidebar-title) {
+          display: inline-block;
+          color: #0f766e;
+          font-size: 0.875rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border-radius: 4px;
+        }
+        :global(.cooking-title) {
+          font-size: 1.25rem;
+          text-transform: uppercase;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          color: #0f766e;
         }
       `}</style>
     </div>
