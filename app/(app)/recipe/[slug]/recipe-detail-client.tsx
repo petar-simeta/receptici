@@ -143,13 +143,6 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
       />
 
       <style jsx>{`
-        :global(.recipe-markdown h1) {
-          font-size: 1.75rem;
-          font-weight: 700;
-          margin-top: 1.5rem;
-          margin-bottom: 1rem;
-          color: #0f766e;
-        }
         :global(.recipe-markdown h3) {
           font-size: 1.25rem;
           font-weight: 600;
@@ -158,36 +151,52 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
           color: #0f766e;
         }
         :global(.recipe-markdown h4) {
-          font-size: 1.125rem;
-          font-weight: 600;
+          font-size: 0.875rem;
+          font-weight: 800;
           margin-top: 0.875rem;
-          margin-bottom: 0.625rem;
+          margin-bottom: 0.125rem;
           color: #0f766e;
+          padding-left: 1.5rem;
         }
         :global(.recipe-markdown p) {
           margin-bottom: 1rem;
           line-height: 1.7;
         }
-        :global(.recipe-markdown ul),
-        :global(.recipe-markdown ol) {
-          margin-left: 2rem;
+        :global(.recipe-markdown ul) {
+          font-size: 0.875rem;
+          list-style: none;
+          padding-left: 1.5rem;
           margin-bottom: 1rem;
         }
-        :global(.recipe-markdown li) {
-          margin-bottom: 0.375rem;
+        :global(.recipe-markdown ul li::before) {
+          content: "-";
+          display: inline-block;
+          width: 0.75rem;
+          margin-right: 0.25rem;
+          color: #0f766e;
+          font-weight: 700;
         }
-        :global(.recipe-markdown ul) {
-          list-style-type: disc;
-        }
-        :global(.recipe-markdown ol) {
-          list-style-type: decimal;
+        :global(.recipe-markdown ul li) {
+          margin-bottom: 0;
         }
 
+        :global(.recipe-markdown ol) {
+          list-style-type: decimal;
+          list-style-position: outside;
+          margin-left: 0;
+          padding-left: 2rem;
+          margin-bottom: 1rem;
+        }
+        :global(.recipe-markdown ol li) {
+          margin-bottom: 1rem;
+          padding-left: 1rem;
+        }
         :global(.recipe-markdown ol li::marker) {
           color: #0f766e;
-          font-size: 0.75rem;
-          font-weight: 600;
+          font-size: 0.875rem;
+          font-weight: 900;
         }
+
         :global(.recipe-markdown strong) {
           font-weight: 600;
         }
@@ -204,7 +213,7 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
           border-radius: 4px;
         }
         :global(.cooking-title) {
-          font-size: 1.25rem;
+          font-size: 1.5rem;
           text-transform: uppercase;
           font-weight: 700;
           letter-spacing: 0.5px;

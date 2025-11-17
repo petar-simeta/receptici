@@ -184,9 +184,20 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           margin-left: 1.5rem;
           margin-bottom: 0.75rem;
         }
+
         .markdown-preview :global(ol) {
           list-style-type: decimal;
         }
+
+        .markdown-preview :global(ul) {
+          list-style-type: none;
+          padding-left: 1.25rem;
+        }
+
+        .markdown-preview :global(ul li::marker) {
+          content: "- ";
+        }
+
         .markdown-preview :global(li) {
           margin-bottom: 0.25rem;
         }
