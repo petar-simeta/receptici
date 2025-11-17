@@ -87,6 +87,7 @@ export default function EditRecipePage() {
           updatedRecipe.duration ?? updatedRecipe.durationMinutes ?? null,
         price: updatedRecipe.price ?? updatedRecipe.pricePerPortion ?? null,
         rating: updatedRecipe.rating ?? null,
+        calories: updatedRecipe.calories ?? null,
         tags,
         ingredients: Array.isArray(updatedRecipe.ingredients)
           ? updatedRecipe.ingredients.map((ing: any) => ({

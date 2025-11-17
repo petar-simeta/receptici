@@ -60,6 +60,7 @@ export function RecipeForm({
     recipe?.pricePerPortion ?? 5
   );
   const [rating, setRating] = useState(recipe?.rating ?? 3.5);
+  const [calories, setCalories] = useState(recipe?.calories ?? 500);
   const [content, setContent] = useState(recipe?.content || "");
   const [contentError, setContentError] = useState<string | null>(null);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
@@ -160,6 +161,7 @@ export function RecipeForm({
       duration,
       pricePerPortion,
       rating,
+      calories,
       ingredients: ingredients
         .filter((ing) => ing.label.trim().length > 0)
         .map((ing) => ({
@@ -298,7 +300,7 @@ export function RecipeForm({
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-4">
             <div className="space-y-2">
               <Label htmlFor="duration">
                 Duration (minutes)<span className="text-red-500 -ml-2">*</span>
@@ -349,6 +351,21 @@ export function RecipeForm({
                 min={0}
                 max={5}
                 required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="calories">Calories per portion (kcal)</Label>
+              <Input
+                id="calories"
+                type="number"
+                step="1"
+                value={calories}
+                onChange={(e) =>
+                  setCalories(Number(e.target.value.replace(",", ".")))
+                }
+                onFocus={(e) => e.target.select()}
+                min={0}
               />
             </div>
           </div>

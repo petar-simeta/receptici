@@ -13,6 +13,7 @@ export const recipeInputSchema = z.object({
   duration: z.number().int().min(0).max(600).optional().nullable(), // u minutama
   price: z.number().min(0).max(100).optional().nullable(), // €/porcija
   rating: z.number().min(0).max(5).optional().nullable(), // 0–5, float
+  calories: z.number().min(0).max(5000).optional().nullable(), // kcal/porcija, neobavezno
   tags: z.array(z.string().min(1)).optional().default([]),
   ingredients: z.array(ingredientInputSchema).optional().default([]),
 });

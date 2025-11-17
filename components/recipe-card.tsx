@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock, Euro } from "lucide-react";
+import { Clock, Euro, Flame } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TagBadge } from "./tag-badge";
 import { RatingStars } from "./rating-stars";
@@ -23,15 +23,25 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
               <TagBadge key={tag.id} tag={tag.name} />
             ))}
           </div>
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div className="grid grid-cols-3 text-sm text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <Clock size={16} className="text-teal-600" />
               <span>{recipe.duration} min</span>
             </div>
-            <div className="flex items-center gap-1.5">
+
+            <div className="flex items-center justify-center gap-1.5">
               <Euro size={16} className="text-teal-600" />
               <span>
                 {recipe.price != null ? recipe.price.toFixed(2) : "N/A"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-end gap-1.5">
+              <Flame size={16} className="text-teal-600" />
+              <span>
+                {recipe.calories != null
+                  ? `${recipe.calories.toFixed(0)} kcal`
+                  : "N/A"}
               </span>
             </div>
           </div>

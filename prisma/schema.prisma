@@ -20,6 +20,7 @@ model Recipe {
   duration    Int?         // vrijeme pripreme u minutama
   price       Float?       // cijena po porciji u eurima
   rating      Float?       // 0–5, može imati decimale (4.32)
+  calories    Float?       // kalorije po porciji
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }

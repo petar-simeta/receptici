@@ -21,6 +21,7 @@ export type Recipe = {
   duration: number | null;
   price: number | null;
   rating: number | null;
+  calories: number | null;
   ingredients: Ingredient[];
   tags: Tag[];
   createdAt: string;

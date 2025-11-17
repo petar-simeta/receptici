@@ -26,14 +26,14 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
   const [sortBy, setSortBy] = useState("rating-desc");
   const [showFilters, setShowFilters] = useState(false);
 
-  // 1) izračunaj maxDuration / maxPrice iz baze (min 60 / 5)
-  const { durationMax, priceMax } = useMemo(() => {
+  const { durationMax, priceMax, caloriesMax } = useMemo(() => {
     if (!initialRecipes.length) {
-      return { durationMax: 60, priceMax: 5 };
+      return { durationMax: 60, priceMax: 5, caloriesMax: 800 };
     }
 
     let maxDur = 0;
     let maxPrice = 0;
+    let maxCalories = 0;
 
     for (const r of initialRecipes) {
       if (r.duration != null && r.duration > maxDur) {
@@ -42,20 +42,25 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
       if (r.price != null && r.price > maxPrice) {
         maxPrice = r.price;
       }
+      if (r.calories != null && r.calories > maxCalories) {
+        maxCalories = r.calories;
+      }
     }
 
     return {
       durationMax: Math.max(maxDur, 60),
       priceMax: Math.max(maxPrice, 5),
+      caloriesMax: Math.max(maxCalories, 800),
     };
   }, [initialRecipes]);
 
-  // slider vrijednosti (po defaultu pune granice)
   const [maxDuration, setMaxDuration] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
+  const [maxCalories, setMaxCalories] = useState<number | null>(null);
 
   const effectiveMaxDuration = maxDuration ?? durationMax;
   const effectiveMaxPrice = maxPrice ?? priceMax;
+  const effectiveMaxCalories = maxCalories ?? caloriesMax;
 
   const allTags = useMemo(
     () =>
@@ -86,7 +91,16 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
       const matchesPrice =
         recipe.price == null || recipe.price <= effectiveMaxPrice;
 
-      return matchesSearch && matchesTags && matchesDuration && matchesPrice;
+      const matchesCalories =
+        recipe.calories == null || recipe.calories <= effectiveMaxCalories;
+
+      return (
+        matchesSearch &&
+        matchesTags &&
+        matchesDuration &&
+        matchesPrice &&
+        matchesCalories
+      );
     });
 
     filtered.sort((a, b) => {
@@ -102,6 +116,11 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
           const ap = a.price ?? Infinity;
           const bp = b.price ?? Infinity;
           return ap - bp;
+        }
+        case "calories-asc": {
+          const ac = a.calories ?? Infinity;
+          const bc = b.calories ?? Infinity;
+          return ac - bc;
         }
         case "rating-desc": {
           const ar = a.rating ?? 0;
@@ -120,6 +139,7 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
     selectedTags,
     effectiveMaxDuration,
     effectiveMaxPrice,
+    effectiveMaxCalories,
     sortBy,
   ]);
 
@@ -159,7 +179,7 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
 
         {showFilters && (
           <div className="space-y-4 rounded-lg border border-teal-200 bg-linear-to-br from-teal-50 to-white p-4 shadow-sm">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
                 <Label className="text-teal-900">Sort by</Label>
                 <Select value={sortBy} onValueChange={setSortBy}>
@@ -176,6 +196,9 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
                     </SelectItem>
                     <SelectItem value="price-asc">
                       Price (cheapest first)
+                    </SelectItem>
+                    <SelectItem value="calories-asc">
+                      Calories (lowest first)
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -205,6 +228,20 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
                   min={1}
                   max={priceMax}
                   step={0.5}
+                  className="pt-2 **:[[role=slider]]:bg-teal-600 **:[[role=slider]]:border-teal-600"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-teal-900">
+                  Max calories: {Math.round(effectiveMaxCalories)} kcal
+                </Label>
+                <Slider
+                  value={[effectiveMaxCalories]}
+                  onValueChange={(values) => setMaxCalories(values[0])}
+                  min={100}
+                  max={caloriesMax}
+                  step={50}
                   className="pt-2 **:[[role=slider]]:bg-teal-600 **:[[role=slider]]:border-teal-600"
                 />
               </div>
@@ -240,6 +277,7 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
                   setSelectedTags([]);
                   setMaxDuration(null);
                   setMaxPrice(null);
+                  setMaxCalories(null);
                   setSortBy("rating-desc");
                 }}
               >

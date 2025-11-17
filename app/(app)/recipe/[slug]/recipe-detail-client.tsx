@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Clock, Euro, Edit, ShoppingBasket } from "lucide-react";
+import { Clock, Euro, Edit, ShoppingBasket, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TagBadge } from "@/components/tag-badge";
@@ -104,6 +104,14 @@ export function RecipeDetailClient({ recipe }: RecipeDetailClientProps) {
                           ? `${recipe.price
                               .toFixed(2)
                               .replace(".", ",")} EUR per portion`
+                          : "N/A"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Flame size={16} className="text-teal-600" />
+                      <span>
+                        {recipe.calories != null
+                          ? `${recipe.calories.toFixed(0)} kcal per portion`
                           : "N/A"}
                       </span>
                     </div>

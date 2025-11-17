@@ -101,6 +101,7 @@ export async function PUT(
           duration: data.duration ?? null,
           price: data.price ?? null,
           rating: data.rating ?? null,
+          calories: data.calories ?? null,
           ingredients: {
             create: data.ingredients.map((ing) => ({
               label: ing.label,
