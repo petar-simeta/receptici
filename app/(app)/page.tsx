@@ -1,9 +1,43 @@
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import type { Recipe } from "@/lib/types";
 import { RecipesExplorer } from "@/components/recipes-explorer";
 
+type RecipeFromDb = Prisma.RecipeGetPayload<{
+  include: {
+    ingredients: true;
+    tags: true;
+  };
+}>;
+
+function mapRecipeFromDb(r: RecipeFromDb): Recipe {
+  return {
+    id: r.id,
+    slug: r.slug,
+    title: r.title,
+    subtitle: r.subtitle,
+    content: r.content,
+    duration: r.duration,
+    price: r.price,
+    rating: r.rating,
+    calories: r.calories,
+    ingredients: r.ingredients.map((ing) => ({
+      id: ing.id,
+      label: ing.label,
+      quantity: ing.quantity,
+      recipeId: ing.recipeId,
+    })),
+    tags: r.tags.map((tag) => ({
+      id: tag.id,
+      name: tag.name,
+    })),
+    createdAt: r.createdAt.toISOString(),
+    updatedAt: r.updatedAt.toISOString(),
+  };
+}
+
 export default async function HomePage() {
-  const recipesFromDb = await prisma.recipe.findMany({
+  const recipesFromDb: RecipeFromDb[] = await prisma.recipe.findMany({
     include: {
       ingredients: true,
       tags: true,
@@ -13,11 +47,7 @@ export default async function HomePage() {
     },
   });
 
-  const recipes: Recipe[] = recipesFromDb.map((r) => ({
-    ...r,
-    createdAt: r.createdAt.toISOString(),
-    updatedAt: r.updatedAt.toISOString(),
-  }));
+  const recipes: Recipe[] = recipesFromDb.map(mapRecipeFromDb);
 
   return (
     <div className="min-h-screen bg-background">
