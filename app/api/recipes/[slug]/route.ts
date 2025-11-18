@@ -73,7 +73,7 @@ export async function PUT(
 
     const newSlug = generateSlug(data.title);
 
-    const updated = await prisma.$transaction(async (tx) => {
+    const updated = await prisma.$transaction(async (tx: any) => {
       // upsert tagova
       const tags = await Promise.all(
         (data.tags ?? []).map((name) =>
