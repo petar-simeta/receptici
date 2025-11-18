@@ -1,7 +1,6 @@
 // app/api/recipes/route.ts
 import { prisma } from "@/lib/prisma";
 import { recipeInputSchema } from "@/lib/recipe-schema";
-import type { Prisma } from "@prisma/client";
 import { generateSlug } from "@/lib/slug";
 
 export async function POST(req: Request) {
@@ -21,7 +20,7 @@ export async function POST(req: Request) {
 
     const data = parsed.data;
 
-    const tagsData: Prisma.RecipeCreateInput["tags"] =
+    const tagsData =
       data.tags && data.tags.length
         ? {
             connectOrCreate: data.tags.map((name) => ({
