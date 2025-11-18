@@ -211,23 +211,23 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
                 <Slider
                   value={[effectiveMaxDuration]}
                   onValueChange={(values) => setMaxDuration(values[0])}
-                  min={5}
+                  min={0}
                   max={durationMax}
-                  step={5}
+                  step={1}
                   className="pt-2 **:[[role=slider]]:bg-teal-600 **:[[role=slider]]:border-teal-600"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label className="text-teal-900">
-                  Max price: €{effectiveMaxPrice.toFixed(1)}
+                  Max price: €{effectiveMaxPrice.toFixed(2)}
                 </Label>
                 <Slider
                   value={[effectiveMaxPrice]}
                   onValueChange={(values) => setMaxPrice(values[0])}
-                  min={1}
+                  min={0}
                   max={priceMax}
-                  step={0.5}
+                  step={0.1}
                   className="pt-2 **:[[role=slider]]:bg-teal-600 **:[[role=slider]]:border-teal-600"
                 />
               </div>
@@ -239,9 +239,9 @@ export function RecipesExplorer({ initialRecipes }: RecipesExplorerProps) {
                 <Slider
                   value={[effectiveMaxCalories]}
                   onValueChange={(values) => setMaxCalories(values[0])}
-                  min={100}
+                  min={0}
                   max={caloriesMax}
-                  step={50}
+                  step={10}
                   className="pt-2 **:[[role=slider]]:bg-teal-600 **:[[role=slider]]:border-teal-600"
                 />
               </div>
