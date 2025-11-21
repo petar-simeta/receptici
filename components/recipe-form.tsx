@@ -56,9 +56,7 @@ export function RecipeForm({
   );
   const [newTag, setNewTag] = useState("");
   const [duration, setDuration] = useState(recipe?.duration || 30);
-  const [pricePerPortion, setPricePerPortion] = useState(
-    recipe?.pricePerPortion ?? 5
-  );
+  const [pricePerPortion, setPricePerPortion] = useState(recipe?.price ?? 3);
   const [rating, setRating] = useState(recipe?.rating ?? 3.5);
   const [calories, setCalories] = useState(recipe?.calories ?? 500);
   const [content, setContent] = useState(recipe?.content || "");

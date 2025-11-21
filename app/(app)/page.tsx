@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import { prisma } from "@/lib/prisma";
 import type { Recipe } from "@/lib/types";
 import { RecipesExplorer } from "@/components/recipes-explorer";
