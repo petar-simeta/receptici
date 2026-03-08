@@ -54,7 +54,7 @@ export function ShoppingListModal({
         description: "Your shopping list is ready to paste.",
       });
       onOpenChange(false);
-    } catch (err) {
+    } catch {
       toast.error("Copy failed", {
         description: "Clipboard permissions blocked. Try manually.",
       });

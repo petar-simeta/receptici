@@ -1,29 +1,31 @@
 // app/api/recipes/[slug]/route.ts
+import { revalidatePath, revalidateTag } from "next/cache";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { getRecipeBySlug } from "@/lib/queries";
 import { recipeInputSchema } from "@/lib/recipe-schema";
 import { generateSlug } from "@/lib/slug";
+import type { RecipeRouteParams } from "@/lib/types";
+
+type RecipeRouteContext = {
+  params: Promise<RecipeRouteParams>;
+};
+
+async function getSlugFromContext(context: RecipeRouteContext) {
+  const { slug } = await context.params;
+  return slug;
+}
 
 // GET /api/recipes/:slug
-export async function GET(
-  _req: Request,
-  context: { params: { slug: string } } | { params: Promise<{ slug: string }> }
-) {
-  // params može biti objekt ili Promise – await radi u oba slučaja
-  const resolvedParams = await (context as any).params;
-  const slug = resolvedParams?.slug as string | undefined;
+export async function GET(_req: Request, context: RecipeRouteContext) {
+  const slug = await getSlugFromContext(context);
 
   if (!slug || typeof slug !== "string") {
     return Response.json({ error: "Missing or invalid slug" }, { status: 400 });
   }
 
   try {
-    const recipe = await prisma.recipe.findUnique({
-      where: { slug },
-      include: {
-        ingredients: true,
-        tags: true,
-      },
-    });
+    const recipe = await getRecipeBySlug(slug);
 
     if (!recipe) {
       return Response.json({ error: "Recipe not found" }, { status: 404 });
@@ -42,12 +44,8 @@ export async function GET(
 }
 
 // PUT /api/recipes/:slug
-export async function PUT(
-  req: Request,
-  context: { params: { slug: string } } | { params: Promise<{ slug: string }> }
-) {
-  const resolvedParams = await (context as any).params;
-  const slug = resolvedParams?.slug as string | undefined;
+export async function PUT(req: Request, context: RecipeRouteContext) {
+  const slug = await getSlugFromContext(context);
 
   if (!slug || typeof slug !== "string") {
     return Response.json({ error: "Missing or invalid slug" }, { status: 400 });
@@ -73,53 +71,60 @@ export async function PUT(
 
     const newSlug = generateSlug(data.title);
 
-    const updated = await prisma.$transaction(async (tx: any) => {
+    const updated = await prisma.$transaction(
+      async (tx: Prisma.TransactionClient) => {
       // upsert tagova
-      const tags = await Promise.all(
-        (data.tags ?? []).map((name) =>
-          tx.tag.upsert({
-            where: { name },
-            update: {},
-            create: { name },
-          })
-        )
-      );
+        const tags = await Promise.all(
+          (data.tags ?? []).map((name) =>
+            tx.tag.upsert({
+              where: { name },
+              update: {},
+              create: { name },
+            })
+          )
+        );
 
-      // pobriši stare sastojke
-      await tx.ingredient.deleteMany({
-        where: { recipeId: existing.id },
-      });
+        // pobriši stare sastojke
+        await tx.ingredient.deleteMany({
+          where: { recipeId: existing.id },
+        });
 
-      // update recepta
-      const recipe = await tx.recipe.update({
-        where: { id: existing.id },
-        data: {
-          title: data.title,
-          slug: newSlug,
-          subtitle: data.subtitle ?? null,
-          content: data.content,
-          duration: data.duration ?? null,
-          price: data.price ?? null,
-          rating: data.rating ?? null,
-          calories: data.calories ?? null,
-          ingredients: {
-            create: data.ingredients.map((ing) => ({
-              label: ing.label,
-              quantity: ing.quantity ?? null,
-            })),
+        // update recepta
+        const recipe = await tx.recipe.update({
+          where: { id: existing.id },
+          data: {
+            title: data.title,
+            slug: newSlug,
+            subtitle: data.subtitle ?? null,
+            content: data.content,
+            duration: data.duration ?? null,
+            price: data.price ?? null,
+            rating: data.rating ?? null,
+            calories: data.calories ?? null,
+            ingredients: {
+              create: data.ingredients.map((ing) => ({
+                label: ing.label,
+                quantity: ing.quantity ?? null,
+              })),
+            },
+            tags: {
+              set: tags.map((tag) => ({ id: tag.id })),
+            },
           },
-          tags: {
-            set: tags.map((t) => ({ id: t.id })),
+          include: {
+            ingredients: true,
+            tags: true,
           },
-        },
-        include: {
-          ingredients: true,
-          tags: true,
-        },
-      });
+        });
 
-      return recipe;
-    });
+        return recipe;
+      }
+    );
+
+    revalidateTag("recipes", "max");
+    revalidatePath("/");
+    revalidatePath(`/recipe/${slug}`);
+    revalidatePath(`/recipe/${updated.slug}`);
 
     return Response.json(updated);
   } catch (err) {
@@ -129,12 +134,8 @@ export async function PUT(
 }
 
 // DELETE /api/recipes/:slug
-export async function DELETE(
-  _req: Request,
-  context: { params: { slug: string } } | { params: Promise<{ slug: string }> }
-) {
-  const resolvedParams = await (context as any).params;
-  const slug = resolvedParams?.slug as string | undefined;
+export async function DELETE(_req: Request, context: RecipeRouteContext) {
+  const slug = await getSlugFromContext(context);
 
   if (!slug || typeof slug !== "string") {
     return Response.json({ error: "Missing or invalid slug" }, { status: 400 });
@@ -149,6 +150,10 @@ export async function DELETE(
     await prisma.recipe.delete({
       where: { id: existing.id },
     });
+
+    revalidateTag("recipes", "max");
+    revalidatePath("/");
+    revalidatePath(`/recipe/${slug}`);
 
     return Response.json({ ok: true });
   } catch (err) {

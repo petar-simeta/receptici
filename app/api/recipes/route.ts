@@ -1,4 +1,5 @@
 // app/api/recipes/route.ts
+import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { recipeInputSchema } from "@/lib/recipe-schema";
 import { generateSlug } from "@/lib/slug";
@@ -53,6 +54,10 @@ export async function POST(req: Request) {
         tags: true,
       },
     });
+
+    revalidateTag("recipes", "max");
+    revalidatePath("/");
+    revalidatePath(`/recipe/${recipe.slug}`);
 
     return Response.json(recipe, { status: 201 });
   } catch (err) {

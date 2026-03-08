@@ -8,18 +8,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import type { Recipe, RecipeFormValues, Tag } from "@/lib/types";
 import { MarkdownEditor } from "./markdown-editor";
 
-type FormIngredient = {
-  label: string;
-  quantity: string;
-};
-
 interface RecipeFormProps {
-  recipe?: any;
-  onSubmit: (recipe: any) => void;
+  recipe?: Recipe | null;
+  onSubmit: (recipe: RecipeFormValues) => void;
   onCancel: () => void;
   onDelete?: () => void;
+}
+
+function isTag(value: unknown): value is Tag {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "name" in value &&
+    typeof value.name === "string"
+  );
 }
 
 export function RecipeForm({
@@ -31,35 +36,34 @@ export function RecipeForm({
   const initialSelectedTags: string[] =
     recipe?.tags && Array.isArray(recipe.tags)
       ? recipe.tags
-          .map((t: any) => (typeof t === "string" ? t : t?.name ?? ""))
-          .filter((t: string) => t.length > 0)
+          .map((tag) => (typeof tag === "string" ? tag : tag.name))
+          .filter((tag) => tag.length > 0)
       : [];
 
-  const initialIngredients: FormIngredient[] =
+  const initialIngredients =
     recipe?.ingredients &&
     Array.isArray(recipe.ingredients) &&
     recipe.ingredients.length > 0
-      ? recipe.ingredients.map((ing: any) => ({
-          label: ing.label ?? "",
-          quantity: ing.quantity ?? "",
+      ? recipe.ingredients.map((ingredient) => ({
+          label: ingredient.label ?? "",
+          quantity: ingredient.quantity ?? "",
         }))
       : [{ label: "", quantity: "" }];
 
-  const [title, setTitle] = useState(recipe?.title || "");
-  const [subtitle, setSubtitle] = useState(recipe?.subtitle || "");
-  const [ingredients, setIngredients] =
-    useState<FormIngredient[]>(initialIngredients);
+  const [title, setTitle] = useState(recipe?.title ?? "");
+  const [subtitle, setSubtitle] = useState(recipe?.subtitle ?? "");
+  const [ingredients, setIngredients] = useState(initialIngredients);
   const [selectedTags, setSelectedTags] =
     useState<string[]>(initialSelectedTags);
   const [allTags, setAllTags] = useState<string[]>(() =>
     Array.from(new Set([...initialSelectedTags]))
   );
   const [newTag, setNewTag] = useState("");
-  const [duration, setDuration] = useState(recipe?.duration || 30);
+  const [duration, setDuration] = useState(recipe?.duration ?? 30);
   const [pricePerPortion, setPricePerPortion] = useState(recipe?.price ?? 3);
   const [rating, setRating] = useState(recipe?.rating ?? 3.5);
   const [calories, setCalories] = useState(recipe?.calories ?? 500);
-  const [content, setContent] = useState(recipe?.content || "");
+  const [content, setContent] = useState(recipe?.content ?? "");
   const [contentError, setContentError] = useState<string | null>(null);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
 
@@ -70,16 +74,14 @@ export function RecipeForm({
         if (!res.ok) {
           return;
         }
-        const data = await res.json();
+        const data: unknown = await res.json();
 
         if (!Array.isArray(data)) {
           return;
         }
 
         const tagNames = Array.from(
-          new Set(
-            data.map((t: any) => (typeof t === "string" ? t : t?.name ?? ""))
-          )
+          new Set(data.map((tag) => (isTag(tag) ? tag.name : "")))
         ).filter((t) => t.length > 0);
 
         if (tagNames.length) {

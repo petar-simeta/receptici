@@ -2,29 +2,32 @@
 
 import { useRouter } from "next/navigation";
 import { RecipeForm } from "@/components/recipe-form";
-// import type { Recipe } from "@/lib/types";
+import type { RecipeInput } from "@/lib/recipe-schema";
+import type { RecipeFormValues } from "@/lib/types";
+
+function toRecipePayload(recipe: RecipeFormValues): RecipeInput {
+  return {
+    title: recipe.title,
+    subtitle: recipe.subtitle || null,
+    content: recipe.content,
+    duration: recipe.duration,
+    price: recipe.pricePerPortion,
+    rating: recipe.rating,
+    calories: recipe.calories,
+    tags: recipe.tags,
+    ingredients: recipe.ingredients.map((ingredient) => ({
+      label: ingredient.label,
+      quantity: ingredient.quantity || null,
+    })),
+  };
+}
 
 export default function NewRecipePage() {
   const router = useRouter();
 
-  const handleSubmit = async (recipe: any) => {
+  const handleSubmit = async (recipe: RecipeFormValues) => {
     try {
-      // adapt RecipeForm values to API input shape
-      const payload = {
-        title: recipe.title ?? "",
-        subtitle: recipe.subtitle ?? null,
-        content: recipe.content ?? recipe.markdown ?? "",
-        duration: recipe.duration ?? recipe.durationMinutes ?? null,
-        price: recipe.price ?? recipe.pricePerPortion ?? null,
-        rating: recipe.rating ?? null,
-        tags: recipe.tags ?? [],
-        ingredients: Array.isArray(recipe.ingredients)
-          ? recipe.ingredients.map((ing: any) => ({
-              label: ing.label ?? "",
-              quantity: ing.quantity ?? null,
-            }))
-          : [],
-      };
+      const payload = toRecipePayload(recipe);
 
       const res = await fetch("/api/recipes", {
         method: "POST",
@@ -40,7 +43,7 @@ export default function NewRecipePage() {
         return;
       }
 
-      const created = await res.json();
+      const created: { slug?: string } = await res.json();
 
       if (created?.slug) {
         router.push(`/recipe/${created.slug}`);

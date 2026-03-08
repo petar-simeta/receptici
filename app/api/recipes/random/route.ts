@@ -1,28 +1,18 @@
 export const dynamic = "force-dynamic";
 
-import { prisma } from "@/lib/prisma";
+import { getRecipeSlugs } from "@/lib/queries";
 
 export async function GET() {
   try {
-    const count = await prisma.recipe.count();
+    const slugs = await getRecipeSlugs();
 
-    if (count === 0) {
+    if (slugs.length === 0) {
       return Response.json({ error: "No recipes" }, { status: 404 });
     }
 
-    const skip = Math.floor(Math.random() * count);
+    const randomSlug = slugs[Math.floor(Math.random() * slugs.length)];
 
-    const recipe = await prisma.recipe.findFirst({
-      skip,
-      orderBy: { createdAt: "asc" },
-      select: { slug: true },
-    });
-
-    if (!recipe) {
-      return Response.json({ error: "No recipes" }, { status: 404 });
-    }
-
-    return Response.json({ slug: recipe.slug });
+    return Response.json({ slug: randomSlug });
   } catch (error) {
     console.error("GET /api/recipes/random error:", error);
     return Response.json(

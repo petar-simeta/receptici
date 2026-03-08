@@ -3,13 +3,32 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { RecipeForm } from "@/components/recipe-form";
+import type { RecipeInput } from "@/lib/recipe-schema";
+import type { Recipe, RecipeFormValues, RecipeRouteParams } from "@/lib/types";
+
+function toRecipePayload(recipe: RecipeFormValues): RecipeInput {
+  return {
+    title: recipe.title,
+    subtitle: recipe.subtitle || null,
+    content: recipe.content,
+    duration: recipe.duration,
+    price: recipe.pricePerPortion,
+    rating: recipe.rating,
+    calories: recipe.calories,
+    tags: recipe.tags,
+    ingredients: recipe.ingredients.map((ingredient) => ({
+      label: ingredient.label,
+      quantity: ingredient.quantity || null,
+    })),
+  };
+}
 
 export default function EditRecipePage() {
   const params = useParams();
-  const slug = params.slug as string;
+  const slug = params.slug as RecipeRouteParams["slug"];
   const router = useRouter();
 
-  const [recipe, setRecipe] = useState<any>(null);
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +43,7 @@ export default function EditRecipePage() {
           setError("Failed to load recipe.");
           return;
         }
-        const data = await res.json();
+        const data: Recipe = await res.json();
         setRecipe(data);
       } catch (e) {
         console.error("Error fetching recipe", e);
@@ -69,33 +88,9 @@ export default function EditRecipePage() {
     );
   }
 
-  const handleSubmit = async (updatedRecipe: any) => {
+  const handleSubmit = async (updatedRecipe: RecipeFormValues) => {
     try {
-      const tags: string[] = Array.isArray(updatedRecipe.tags)
-        ? updatedRecipe.tags
-            .map((tag: any) =>
-              typeof tag === "string" ? tag : tag?.name ?? ""
-            )
-            .filter((t: string) => t.length > 0)
-        : [];
-
-      const payload = {
-        title: updatedRecipe.title ?? "",
-        subtitle: updatedRecipe.subtitle ?? null,
-        content: updatedRecipe.content ?? updatedRecipe.markdown ?? "",
-        duration:
-          updatedRecipe.duration ?? updatedRecipe.durationMinutes ?? null,
-        price: updatedRecipe.price ?? updatedRecipe.pricePerPortion ?? null,
-        rating: updatedRecipe.rating ?? null,
-        calories: updatedRecipe.calories ?? null,
-        tags,
-        ingredients: Array.isArray(updatedRecipe.ingredients)
-          ? updatedRecipe.ingredients.map((ing: any) => ({
-              label: ing.label ?? "",
-              quantity: ing.quantity ?? null,
-            }))
-          : [],
-      };
+      const payload = toRecipePayload(updatedRecipe);
 
       const res = await fetch(`/api/recipes/${slug}`, {
         method: "PUT",
@@ -111,7 +106,7 @@ export default function EditRecipePage() {
         return;
       }
 
-      const updated = await res.json();
+      const updated: { slug?: string } = await res.json();
       const nextSlug = updated?.slug ?? slug;
       router.push(`/recipe/${nextSlug}`);
     } catch (error) {

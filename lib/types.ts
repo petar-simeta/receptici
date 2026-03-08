@@ -12,6 +12,10 @@ export type Tag = {
   name: string;
 };
 
+export type RecipeRouteParams = {
+  slug: string;
+};
+
 export type Recipe = {
   id: string;
   slug: string;
@@ -26,4 +30,21 @@ export type Recipe = {
   tags: Tag[];
   createdAt: string;
   updatedAt: string;
+};
+
+export type RecipeFormIngredient = {
+  label: string;
+  quantity: string;
+};
+
+export type RecipeFormValues = {
+  title: string;
+  subtitle: string;
+  tags: string[];
+  duration: number;
+  pricePerPortion: number;
+  rating: number;
+  calories: number;
+  ingredients: RecipeFormIngredient[];
+  content: string;
 };
