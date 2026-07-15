@@ -4,14 +4,24 @@ import { formatScaledAmount, type RoundingMode } from "../lib/format";
 interface Props {
   value: number;
   unit?: string;
+  oneUnit?: string;
+  fewUnit?: string;
   rounding?: RoundingMode;
 }
 
-const { value, unit = "", rounding = "smart" } = Astro.props;
+const {
+  value,
+  unit = "",
+  oneUnit,
+  fewUnit,
+  rounding = "smart",
+} = Astro.props;
 ---
 
 <span
   data-scale-value={value}
   data-scale-unit={unit}
+  data-scale-one-unit={oneUnit}
+  data-scale-few-unit={fewUnit}
   data-scale-rounding={rounding}
->{formatScaledAmount(value, unit, rounding)}</span>
+>{formatScaledAmount(value, unit, rounding, oneUnit, fewUnit)}</span>

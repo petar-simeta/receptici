@@ -27,10 +27,12 @@ ingredients:
       value: 500
       unit: g
   - name: Paprike za punjenje
-    quantity: "9"
+    quantity: 9 srednjih
     scaled:
       value: 9
-      unit: kom
+      unit: srednjih
+      oneUnit: srednja
+      fewUnit: srednje
       rounding: whole
   - name: Parboiled riža dugog zrna
     quantity: 130 g
@@ -42,8 +44,10 @@ ingredients:
     quantity: 3 veća
     scaled:
       value: 3
-      unit: kom
-      rounding: half
+      unit: većih
+      oneUnit: veći
+      fewUnit: veća
+      rounding: whole
   - name: Češnjak
     quantity: 4 češnja
     scaled:
@@ -140,14 +144,14 @@ scaling:
 
 import Amount from "../../components/Amount.astro";
 
-1. Za mesnu smjesu sitno nasjeckati <Amount value={2} unit="kom" rounding="half" /> veća luka i <Amount value={4} unit="kom" rounding="whole" /> češnjaka. U tavi zagrijati <Amount value={1} unit="žlicu" rounding="half" /> ulja, dodati luk i pirjati 7–10 minuta na srednje laganoj vatri, dok ne omekša bez tamnjenja. Dodati češnjak, pirjati još 30–60 sekundi, maknuti s vatre i kratko ohladiti.
+1. Za mesnu smjesu sitno nasjeckati <Amount value={2} unit="većih lukova" oneUnit="veći luk" fewUnit="veća luka" rounding="whole" /> i <Amount value={4} unit="kom" rounding="whole" /> češnjaka. U tavi zagrijati <Amount value={1} unit="žlicu" rounding="half" /> ulja, dodati luk i pirjati 7–10 minuta na srednje laganoj vatri, dok ne omekša bez tamnjenja. Dodati češnjak, pirjati još 30–60 sekundi, maknuti s vatre i kratko ohladiti.
 2. U veliku zdjelu staviti <Amount value={1000} unit="g" /> mljevene junetine i <Amount value={500} unit="g" /> mljevene svinjetine. Dodati ohlađeni luk i češnjak, <Amount value={2} unit="kom" rounding="whole" /> jaja, <Amount value={2} unit="žlice" rounding="half" /> nasjeckanog peršina, <Amount value={2} unit="žličice" rounding="half" /> soli, <Amount value={1} unit="žličicu" rounding="half" /> papra, <Amount value={2} unit="žličice" rounding="half" /> slatke mljevene paprike, po želji malo ljute paprike i <Amount value={3.5} unit="žlice" rounding="half" /> krušnih mrvica.
 3. Smjesu kratko promiješati rukama samo dok se sastojci ravnomjerno ne povežu. Ne mijesiti predugo kako meso ne bi postalo tvrdo. Podijeliti je na dva približno jednaka dijela.
 
 #### Punjene paprike
 
 4. Isprati <Amount value={130} unit="g" rounding="whole" /> sirove parboiled riže dugog zrna. Umiješati je u polovicu mesne smjese zajedno s <Amount value={2.5} unit="žlice" rounding="half" /> vode. Rižu ne kuhati unaprijed.
-5. Oprati <Amount value={9} unit="kom" rounding="whole" /> paprika, odrezati im vrh oko peteljke i odstraniti sjemenke. Paprike ostaviti cijele i otvorene samo na vrhu.
+5. Oprati <Amount value={9} unit="srednjih paprika" oneUnit="srednju papriku" fewUnit="srednje paprike" rounding="whole" />, odrezati im vrh oko peteljke i odstraniti sjemenke. Paprike ostaviti cijele i otvorene samo na vrhu.
 6. Paprike lagano napuniti mesnom smjesom s rižom, bez nabijanja i bez punjenja do samog vrha. Ostaviti malo prostora jer će riža tijekom kuhanja nabubriti. Ako ostane smjese, oblikovati je u dodatne male ćufte.
 
 #### Ćufte
@@ -157,7 +161,7 @@ import Amount from "../../components/Amount.astro";
 
 #### Umak i kuhanje
 
-9. U velikom loncu zagrijati <Amount value={2.5} unit="žlice" rounding="half" /> ulja. Dodati <Amount value={1} unit="kom" rounding="half" /> sitno nasjeckanog velikog luka i pirjati 7–10 minuta na srednje laganoj vatri, dok ne omekša.
+9. Sitno nasjeckati <Amount value={1} unit="većih lukova" oneUnit="veći luk" fewUnit="veća luka" rounding="whole" />. U velikom loncu zagrijati <Amount value={2.5} unit="žlice" rounding="half" /> ulja, dodati luk i pirjati 7–10 minuta na srednje laganoj vatri, dok ne omekša.
 10. Dodati <Amount value={1.5} unit="žlice" rounding="half" /> glatkog brašna i miješati 30–45 sekundi, samo dok se brašno ne zapjeni i spoji s lukom. Postupno ulijevati <Amount value={1.2} unit="l" /> pasirane rajčice uz stalno miješanje kako se ne bi stvorile grudice, a zatim dodati <Amount value={1.2} unit="l" /> vode.
 11. Dodati <Amount value={2} unit="kom" rounding="whole" /> lovorova lista, <Amount value={1.5} unit="žličice" rounding="half" /> soli, <Amount value={1} unit="žličicu" rounding="half" /> papra, <Amount value={1.5} unit="žličice" rounding="half" /> slatke mljevene paprike, <Amount value={1.5} unit="žličice" rounding="half" /> šećera i po želji malo ljute paprike. Pustiti da umak zavrije, zatim smanjiti vatru na lagano krčkanje *(oko 2–3 od 9 na indukciji)*. Umak na početku treba biti malo rjeđi jer će riža upiti dio tekućine.
 12. Nježno posložiti punjene paprike u umak. Umak ih treba gotovo prekrivati; po potrebi dodati još malo vode. Poklopiti i kuhati 25–30 minuta na laganoj vatri.

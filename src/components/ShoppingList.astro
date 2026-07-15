@@ -7,6 +7,8 @@ interface Ingredient {
   scaled?: {
     value: number;
     unit: string;
+    oneUnit?: string;
+    fewUnit?: string;
     rounding: "smart" | "whole" | "half" | "tenth";
   };
 }
@@ -48,6 +50,8 @@ const { ingredients } = Astro.props;
                   <ScaledValue
                     value={ingredient.scaled.value}
                     unit={ingredient.scaled.unit}
+                    oneUnit={ingredient.scaled.oneUnit}
+                    fewUnit={ingredient.scaled.fewUnit}
                     rounding={ingredient.scaled.rounding}
                   />
                 ) : ingredient.quantity}

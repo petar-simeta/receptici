@@ -47,8 +47,16 @@ const { label, baseGrams, defaultGrams = baseGrams, options } = Astro.props;
       document.querySelectorAll<HTMLElement>("[data-scale-value]").forEach((element) => {
         const baseValue = Number(element.dataset.scaleValue);
         const unit = element.dataset.scaleUnit ?? "";
+        const oneUnit = element.dataset.scaleOneUnit;
+        const fewUnit = element.dataset.scaleFewUnit;
         const rounding = (element.dataset.scaleRounding ?? "smart") as RoundingMode;
-        element.textContent = formatScaledAmount(baseValue * factor, unit, rounding);
+        element.textContent = formatScaledAmount(
+          baseValue * factor,
+          unit,
+          rounding,
+          oneUnit,
+          fewUnit,
+        );
       });
 
       document.querySelectorAll<HTMLElement>("[data-yield-amount]").forEach((element) => {

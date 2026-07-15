@@ -40,6 +40,8 @@ imageAlt: Privremena ilustracija za naziv recepta
 - Obroci koriste `/images/recipes/default-meal.svg`.
 - Slastice koriste `/images/recipes/default-dessert.svg`.
 - Kod zamjene fotografijom spremiti optimiziranu datoteku u `public/images/recipes/` i ažurirati oba polja.
+- Fotografije spremati kao WebP, najviše 960 px široke. Kartice se prikazuju do približno 560 px širine samo na rubnom mobilnom breakpointu, a u uobičajenim prikazima 360–430 px, pa 960 px ostavlja dobru rezervu i za ekrane visoke gustoće.
+- Ne čuvati PNG/JPEG izvornike ili neiskorištene varijante u `public/` ni u repozitoriju.
 - Alternativni tekst mora kratko opisati ono što je stvarno prikazano na fotografiji.
 
 ## Shopping sastojci i upute nisu ista stvar
@@ -55,6 +57,15 @@ Služe za:
 - pretragu recepata po sastojku.
 
 Moraju biti jedan ravan popis. Ne dijeliti ih na grupe za tijesto, umak ili prilog. Količina može biti približna ili izostavljena za osnovne začine i namirnice koje samo treba imati kod kuće.
+
+Količine zapisivati onako kako se namirnica stvarno kupuje i koristi u kuhinji:
+
+- luk, mrkvu, krumpir, paprike, tikvice i slično navoditi u komadima uz korisnu veličinu, primjerice `2 velika luka`, `3 srednje mrkve` ili `5 srednjih krumpira`;
+- konzervirane namirnice navoditi kao broj i veličinu pakiranja, primjerice `2 limenke od po 400 g`;
+- grame zadržati za meso, brašno, šećer, maslac, čokoladu, rižu, tjesteninu i druge namirnice kod kojih je masa precizna ili uobičajena mjera;
+- ne pretvarati precizne slastičarske količine u šalice ili proizvoljne komade.
+
+Ako se povrće skalira, procijeniti praktičan broj komada za svaku ponuđenu količinu. Rezultat mora biti realan i ne smije od korisnika tražiti vaganje cijelog povrća.
 
 ### Sastojci i količine u uputama
 
@@ -139,12 +150,16 @@ Primjer cijelih komada:
 
 ```yaml
 - name: Luk
-  quantity: "4"
+  quantity: 4 velika
   scaled:
     value: 4
-    unit: kom
+    unit: velikih
+    oneUnit: veliki
+    fewUnit: velika
     rounding: whole
 ```
+
+`oneUnit` i `fewUnit` koristiti kada se jedinica mora gramatički mijenjati. Gornji primjer prikazuje `1 veliki`, `2 velika` i `5 velikih`, dok naziv sastojka daje puni kontekst „Luk”. Ista polja dostupna su komponenti `Amount` u uputama kada treba ispisati cijeli pravilno sklonjeni naziv namirnice.
 
 ### Skaliranje u uputama
 

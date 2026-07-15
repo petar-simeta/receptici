@@ -67,6 +67,8 @@ const { data } = recipe;
                       <ScaledValue
                         value={ingredient.scaled.value}
                         unit={ingredient.scaled.unit}
+                        oneUnit={ingredient.scaled.oneUnit}
+                        fewUnit={ingredient.scaled.fewUnit}
                         rounding={ingredient.scaled.rounding}
                       />
                     ) : ingredient.quantity}

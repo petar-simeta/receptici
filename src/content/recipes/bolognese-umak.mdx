@@ -28,26 +28,35 @@ ingredients:
       value: 500
       unit: g
   - name: Luk
-    quantity: oko 300 g
+    quantity: 2 velika
     scaled:
-      value: 300
-      unit: g
+      value: 2
+      unit: velikih
+      oneUnit: veliki
+      fewUnit: velika
+      rounding: whole
   - name: Mrkva
-    quantity: oko 200 g
+    quantity: 2 srednje
     scaled:
-      value: 200
-      unit: g
+      value: 2
+      unit: srednjih
+      oneUnit: srednja
+      fewUnit: srednje
+      rounding: whole
   - name: Stabljike celera
-    quantity: oko 150 g
+    quantity: 3 srednje
     scaled:
-      value: 150
-      unit: g
+      value: 3
+      unit: stabljika
+      oneUnit: stabljika
+      fewUnit: stabljike
+      rounding: whole
   - name: Češnjak
     quantity: 3 češnja
     scaled:
       value: 3
       unit: kom
-      rounding: half
+      rounding: whole
   - name: Koncentrat rajčice
     quantity: 3 pune žlice
     scaled:
@@ -116,16 +125,16 @@ Može se koristiti i <Amount value={1000} unit="g" /> mljevene junetine od pleć
 
 #### Priprema i soffritto
 
-1. Vrlo sitno nasjeckati <Amount value={300} unit="g" /> luka, <Amount value={200} unit="g" /> mrkve i <Amount value={150} unit="g" /> stabljika celera, na komadiće približno veličine zrna riže. Sitno nasjeckati ili protisnuti <Amount value={3} unit="kom" rounding="half" /> češnjaka.
+1. Vrlo sitno nasjeckati <Amount value={2} unit="velikih lukova" oneUnit="veliki luk" fewUnit="velika luka" rounding="whole" />, <Amount value={2} unit="srednjih mrkvi" oneUnit="srednju mrkvu" fewUnit="srednje mrkve" rounding="whole" /> i <Amount value={3} unit="stabljika celera" oneUnit="stabljiku celera" fewUnit="stabljike celera" rounding="whole" />, na komadiće približno veličine zrna riže. Sitno nasjeckati ili protisnuti <Amount value={3} unit="kom" rounding="whole" /> češnjaka.
 2. U širokom loncu zagrijati <Amount value={2} unit="žlice" rounding="half" /> maslinovog ulja i otopiti <Amount value={25} unit="g" /> maslaca na laganoj vatri *(oko 3 od 9 na indukciji)*. Dodati luk, mrkvu, celer i mali prstohvat soli pa pirjati 15–20 minuta uz povremeno miješanje. Povrće treba potpuno omekšati i postati lagano slatkasto, bez tamnjenja.
 
 #### Meso i osnova umaka
 
 3. Pojačati vatru na jaku *(oko 7 od 9)*. Dodati <Amount value={500} unit="g" /> mljevene junetine i <Amount value={500} unit="g" /> mljevene svinjetine. Ako lonac nije dovoljno širok, meso zapeći u dvije ture. Rasporediti ga po dnu, ostaviti 1–2 minute bez miješanja, zatim ga razlomiti kuhačom i peći ukupno 10–15 minuta, dok ne dobije smeđe dijelove i dok višak tekućine ne ispari.
 4. Dodati <Amount value={1} unit="žličicu" rounding="half" /> soli i svježe mljeveni crni papar pa promiješati i peći još 30 sekundi. Ne dodavati više soli na početku jer temeljac može biti slan, a umak će se reducirati.
-5. Smanjiti vatru na srednju *(oko 5 od 9)*. Dodati <Amount value={3} unit="kom" rounding="half" /> nasjeckanog češnjaka i miješati 30–45 sekundi, samo dok ne zamiriše. Dodati <Amount value={3} unit="žlice" rounding="half" /> koncentrata rajčice i pržiti 2–3 minute na srednjoj vatri, dok malo ne potamni i izgubi sirovu kiselost.
+5. Smanjiti vatru na srednju *(oko 5 od 9)*. Dodati <Amount value={3} unit="kom" rounding="whole" /> nasjeckanog češnjaka i miješati 30–45 sekundi, samo dok ne zamiriše. Dodati <Amount value={3} unit="žlice" rounding="half" /> koncentrata rajčice i pržiti 2–3 minute na srednjoj vatri, dok malo ne potamni i izgubi sirovu kiselost.
 6. Uliti <Amount value={250} unit="ml" /> suhog crnog vina, pojačati vatru i kuhačom sastrugati smeđe tragove s dna. Kuhati 5–8 minuta, dok se vino ne reducira barem na polovicu i ne izgubi jak miris alkohola.
-7. Dodati <Amount value={500} unit="ml" /> pasirane rajčice, <Amount value={600} unit="ml" /> goveđeg temeljca, <Amount value={1} unit="kom" rounding="half" /> lovorova lista i <Amount value={0.5} unit="žličice" rounding="half" /> suhog timijana. Pustiti da umak počne lagano ključati, zatim odmah smanjiti vatru.
+7. Dodati <Amount value={500} unit="ml" /> pasirane rajčice, <Amount value={600} unit="ml" /> goveđeg temeljca, <Amount value={1} unit="kom" rounding="whole" /> lovorova lista i <Amount value={0.5} unit="žličice" rounding="half" /> suhog timijana. Pustiti da umak počne lagano ključati, zatim odmah smanjiti vatru.
 
 #### Sporo kuhanje
 

@@ -23,6 +23,8 @@ export function formatScaledAmount(
   value: number,
   unit = "",
   rounding: RoundingMode = "smart",
+  oneUnit?: string,
+  fewUnit?: string,
 ) {
   const rounded = roundValue(value, rounding);
 
@@ -34,7 +36,21 @@ export function formatScaledAmount(
     return `${formatNumber(rounded / 1000)} l`;
   }
 
-  return unit ? `${formatNumber(rounded)} ${unit}` : formatNumber(rounded);
+  if (!unit) return formatNumber(rounded);
+
+  const lastTwo = rounded % 100;
+  const last = rounded % 10;
+  const usesFew = Number.isInteger(rounded)
+    && last >= 2
+    && last <= 4
+    && !(lastTwo >= 12 && lastTwo <= 14);
+  const displayedUnit = rounded === 1 && oneUnit
+    ? oneUnit
+    : usesFew && fewUnit
+      ? fewUnit
+      : unit;
+
+  return `${formatNumber(rounded)} ${displayedUnit}`;
 }
 
 export function formatPrice(price: number) {

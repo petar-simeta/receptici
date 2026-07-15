@@ -5,6 +5,8 @@ import { z } from "astro/zod";
 const scaledQuantity = z.object({
   value: z.number().positive(),
   unit: z.string().default(""),
+  oneUnit: z.string().min(1).optional(),
+  fewUnit: z.string().min(1).optional(),
   rounding: z.enum(["smart", "whole", "half", "tenth"]).default("smart"),
 });
 
