@@ -10,6 +10,15 @@ const scaledQuantity = z.object({
   rounding: z.enum(["smart", "whole", "half", "tenth"]).default("smart"),
 });
 
+const timeRange = z.object({
+  min: z.number().int().positive(),
+  max: z.number().int().positive(),
+}).refine(({ min, max }) => max >= min, {
+  message: "Najdulje vrijeme mora biti veće ili jednako najkraćem.",
+});
+
+const timeValue = z.union([z.number().int().positive(), timeRange]);
+
 const recipes = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/recipes" }),
   schema: z.object({
@@ -18,7 +27,11 @@ const recipes = defineCollection({
     image: z.string().min(1),
     imageAlt: z.string(),
     category: z.enum(["meal", "dessert"]),
-    duration: z.number().int().positive(),
+    prepTime: timeValue,
+    cookTime: timeValue,
+    restTime: timeValue.optional(),
+    chillTime: timeValue.optional(),
+    totalTime: timeValue,
     price: z.number().nonnegative(),
     calories: z.number().nonnegative(),
     yield: z.object({

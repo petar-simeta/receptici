@@ -6,7 +6,7 @@ import ScaledValue from "../../components/ScaledValue.astro";
 import ShoppingList from "../../components/ShoppingList.astro";
 import TagBadge from "../../components/TagBadge.astro";
 import WakeLockButton from "../../components/WakeLockButton.astro";
-import { formatPrice, formatYieldUnit } from "../../lib/format";
+import { formatDuration, formatPrice, formatYieldUnit } from "../../lib/format";
 
 export async function getStaticPaths() {
   const recipes = await getCollection("recipes");
@@ -23,6 +23,11 @@ interface Props {
 const { recipe } = Astro.props;
 const { Content } = await render(recipe);
 const { data } = recipe;
+const caloriesPerLabel = data.yield.unit === "keksa"
+  ? "po keksu"
+  : data.yield.unit === "kriški"
+    ? "po kriški"
+    : "po porciji";
 ---
 
 <BaseLayout
@@ -92,8 +97,28 @@ const { data } = recipe;
             <h2>Detalji</h2>
             <dl class="recipe-meta">
               <div>
-                <dt>Trajanje</dt>
-                <dd>{data.duration} min</dd>
+                <dt>Aktivna priprema</dt>
+                <dd>{formatDuration(data.prepTime)}</dd>
+              </div>
+              <div>
+                <dt>Kuhanje / pečenje</dt>
+                <dd>{formatDuration(data.cookTime)}</dd>
+              </div>
+              {data.restTime && (
+                <div>
+                  <dt>Odmaranje</dt>
+                  <dd>{formatDuration(data.restTime)}</dd>
+                </div>
+              )}
+              {data.chillTime && (
+                <div>
+                  <dt>Hlađenje</dt>
+                  <dd>{formatDuration(data.chillTime)}</dd>
+                </div>
+              )}
+              <div>
+                <dt>Ukupno</dt>
+                <dd>{formatDuration(data.totalTime)}</dd>
               </div>
               <div>
                 <dt>Za koliko</dt>
@@ -113,7 +138,7 @@ const { data } = recipe;
               </div>
               <div>
                 <dt>Kalorije</dt>
-                <dd>{data.calories} kcal po porciji</dd>
+                <dd>{data.calories} kcal {caloriesPerLabel}</dd>
               </div>
             </dl>
           </div>

@@ -19,8 +19,9 @@ Svaki recept mora imati:
 - naslov i kratki podnaslov;
 - putanju do slike i smislen alternativni tekst;
 - kategoriju `meal` ili `dessert`;
-- ukupno trajanje u minutama;
-- cijenu i kalorije po porciji;
+- aktivno vrijeme pripreme (`prepTime`), vrijeme kuhanja ili pečenja (`cookTime`) i ukupno vrijeme (`totalTime`);
+- vrijeme odmaranja (`restTime`) ili hlađenja (`chillTime`) kada utječe na to kada je recept stvarno spreman;
+- cijenu i kalorije po osobi, kriški, keksu ili drugoj prikazanoj jedinici;
 - očekivani broj osoba, kriški, keksa ili komada;
 - tagove;
 - ravan shopping popis sastojaka;
@@ -121,6 +122,32 @@ yield:
 ```
 
 Ako broj nije poznat, pronaći vjerodostojan izvor ili procijeniti prema ukupnoj količini. U samom prikazu koristiti realnu, praktičnu vrijednost.
+
+## Vremena
+
+Vremena se ne smiju svesti na jednu nejasnu vrijednost. Svaki recept mora imati `prepTime`, `cookTime` i `totalTime`, a prema potrebi i `restTime` ili `chillTime`. Kartice i filtri koriste `totalTime`, dok stranica recepta prikazuje cijelu razradu.
+
+Jedna vrijednost zapisuje se u minutama:
+
+```yaml
+prepTime: 20
+cookTime: 45
+restTime: 15
+totalTime: 80
+```
+
+Kada vrijeme stvarno ovisi o veličini komada, broju tura ili broju limova, koristiti raspon:
+
+```yaml
+prepTime:
+  min: 60
+  max: 90
+totalTime:
+  min: 300
+  max: 420
+```
+
+`prepTime` predstavlja aktivan rad. `totalTime` predstavlja stvarno proteklo vrijeme do posluživanja i ne mora biti zbroj ostalih polja kada se radnje odvijaju paralelno.
 
 ## Opcionalno skaliranje prema mesu
 

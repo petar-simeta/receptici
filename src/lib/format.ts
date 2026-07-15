@@ -1,4 +1,5 @@
 export type RoundingMode = "smart" | "whole" | "half" | "tenth";
+export type DurationValue = number | { min: number; max: number };
 
 function roundValue(value: number, rounding: RoundingMode) {
   switch (rounding) {
@@ -58,6 +59,28 @@ export function formatPrice(price: number) {
     style: "currency",
     currency: "EUR",
   }).format(price);
+}
+
+function formatSingleDuration(minutes: number) {
+  if (minutes < 180) return `${minutes} min`;
+
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  return remainder === 0 ? `${hours} h` : `${hours} h ${remainder} min`;
+}
+
+export function formatDuration(value: DurationValue) {
+  if (typeof value === "number") return formatSingleDuration(value);
+
+  if (value.min >= 180 && value.min % 60 === 0 && value.max % 60 === 0) {
+    return `${value.min / 60}–${value.max / 60} h`;
+  }
+
+  return `${value.min}–${value.max} min`;
+}
+
+export function durationUpperBound(value: DurationValue) {
+  return typeof value === "number" ? value : value.max;
 }
 
 export function formatMeatOption(grams: number) {

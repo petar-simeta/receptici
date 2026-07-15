@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { durationUpperBound, formatDuration } from "../lib/format";
 import RecipeCard from "./RecipeCard.astro";
 
 interface Props {
@@ -11,7 +12,7 @@ const { title, recipes } = Astro.props;
 const allTags = [...new Set(recipes.flatMap((recipe) => recipe.data.tags))].sort((a, b) =>
   a.localeCompare(b, "hr"),
 );
-const durationMax = Math.max(60, ...recipes.map((recipe) => recipe.data.duration));
+const durationMax = Math.max(60, ...recipes.map((recipe) => durationUpperBound(recipe.data.totalTime)));
 const priceMax = Math.max(5, ...recipes.map((recipe) => recipe.data.price));
 const caloriesMax = Math.max(800, ...recipes.map((recipe) => recipe.data.calories));
 ---
@@ -37,14 +38,14 @@ const caloriesMax = Math.max(800, ...recipes.map((recipe) => recipe.data.calorie
         <span>Sortiranje</span>
         <select data-sort>
           <option value="name">Naziv (A–Ž)</option>
-          <option value="duration">Najkraće trajanje</option>
+          <option value="duration">Najkraće ukupno vrijeme</option>
           <option value="price">Najniža cijena</option>
           <option value="calories">Najmanje kalorija</option>
         </select>
       </label>
 
       <label class="field-group range-field">
-        <span>Maks. trajanje: <output data-duration-output>{durationMax} min</output></span>
+        <span>Maks. ukupno vrijeme: <output data-duration-output>{formatDuration(durationMax)}</output></span>
         <input type="range" min="0" max={durationMax} value={durationMax} step="1" data-duration />
       </label>
 
@@ -102,6 +103,13 @@ const caloriesMax = Math.max(800, ...recipes.map((recipe) => recipe.data.calorie
     const cards = [...explorer.querySelectorAll<HTMLElement>("[data-recipe-card]")];
     const selectedTags = new Set<string>();
 
+    const formatDuration = (minutes: number) => {
+      if (minutes < 180) return `${minutes} min`;
+      const hours = Math.floor(minutes / 60);
+      const remainder = minutes % 60;
+      return remainder === 0 ? `${hours} h` : `${hours} h ${remainder} min`;
+    };
+
     const normalize = (value: string) =>
       value.toLocaleLowerCase("hr").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
@@ -155,7 +163,7 @@ const caloriesMax = Math.max(800, ...recipes.map((recipe) => recipe.data.calorie
     search?.addEventListener("input", applyFilters);
     sort?.addEventListener("change", applyFilters);
     duration?.addEventListener("input", () => {
-      if (durationOutput) durationOutput.value = `${duration.value} min`;
+      if (durationOutput) durationOutput.value = formatDuration(Number(duration.value));
       applyFilters();
     });
     price?.addEventListener("input", () => {
@@ -183,7 +191,7 @@ const caloriesMax = Math.max(800, ...recipes.map((recipe) => recipe.data.calorie
       if (duration) duration.value = duration.max;
       if (price) price.value = price.max;
       if (calories) calories.value = calories.max;
-      if (durationOutput && duration) durationOutput.value = `${duration.max} min`;
+      if (durationOutput && duration) durationOutput.value = formatDuration(Number(duration.max));
       if (priceOutput && price) priceOutput.value = `${Number(price.max).toFixed(2).replace(".", ",")} €`;
       if (caloriesOutput && calories) caloriesOutput.value = `${calories.max} kcal`;
       selectedTags.clear();

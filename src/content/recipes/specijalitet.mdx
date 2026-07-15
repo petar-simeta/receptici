@@ -4,142 +4,77 @@ subtitle: Čili junetina i svinjetina s pireom
 image: /images/recipes/specijalitet.webp
 imageAlt: Čili junetina i svinjetina s pireom i zelenom salatom
 category: meal
-duration: 40
+prepTime: 20
+cookTime: 25
+totalTime: 45
 price: 2.4
 calories: 600
 yield:
-  amount: 8
+  amount: 4
   unit: osoba
   oneUnit: osobu
   fewUnit: osobe
 tags:
   - Ručak
+  - Meso
 ingredients:
   - name: Maslinovo ulje
-    quantity: po potrebi
+    quantity: oko 1 žlica + po potrebi
   - name: Mljevena nemasna junetina
-    quantity: 500 g
-    scaled:
-      value: 500
-      unit: g
+    quantity: 200 g
   - name: Mljevena svinjetina
-    quantity: 500 g
-    scaled:
-      value: 500
-      unit: g
+    quantity: 200 g
   - name: Sezamovo ulje
-    quantity: oko 3½ žlice
-    scaled:
-      value: 3.5
-      unit: žlice
-      rounding: half
+    quantity: 1 žlica + 1 žličica
   - name: Češnjak
-    quantity: 5 češnjeva
-    scaled:
-      value: 5
-      unit: kom
-      rounding: whole
+    quantity: 2 češnja
   - name: Svježi korijen đumbira
-    quantity: oko 12 cm
-    scaled:
-      value: 12.5
-      unit: cm
-      rounding: half
+    quantity: komad od oko 5 cm
   - name: Crvene čili papričice
-    quantity: 6 manjih, bez sjemenki
-    scaled:
-      value: 6
-      unit: manjih
-      oneUnit: manja
-      fewUnit: manje
-      rounding: whole
+    quantity: 2–3 manje, bez sjemenki
   - name: Smeđi šećer
-    quantity: oko 3½ žlice
-    scaled:
-      value: 3.5
-      unit: žlice
-      rounding: half
+    quantity: 1 žlica + 1 žličica
   - name: Riblji umak
-    quantity: oko 3½ žlice
-    scaled:
-      value: 3.5
-      unit: žlice
-      rounding: half
+    quantity: 1 žlica + 1–2 žličice
   - name: Limeta
-    quantity: "3"
-    scaled:
-      value: 3
-      unit: kom
-      rounding: whole
+    quantity: 1 velika
   - name: Mladi luk
-    quantity: "8"
-    scaled:
-      value: 8
-      unit: kom
-      rounding: whole
+    quantity: 3 komada
   - name: Sojin umak
-    quantity: oko 2½ žlice
-    scaled:
-      value: 2.5
-      unit: žlice
-      rounding: half
+    quantity: 1 žlica
   - name: Listovi korijandera
-    quantity: 1 velika vezica
-    scaled:
-      value: 1
-      unit: velika vezica
-      rounding: half
+    quantity: 1 manja vezica
   - name: Krumpir
-    quantity: 10 srednjih
-    scaled:
-      value: 10
-      unit: srednjih
-      oneUnit: srednji
-      fewUnit: srednja
-      rounding: whole
+    quantity: 4 srednja
   - name: Mlijeko
-    quantity: 250 ml
-    scaled:
-      value: 250
-      unit: ml
+    quantity: oko 100 ml
   - name: Maslac za pire
-    quantity: 80 g
-    scaled:
-      value: 80
-      unit: g
+    quantity: 30 g
   - name: Zelena salata
     quantity: opcionalno
-scaling:
-  label: Količina mesa
-  baseGrams: 1000
-  defaultGrams: 500
-  options:
-    - 500
-    - 1000
-    - 1500
+  - name: Sol i papar
+    quantity: vrlo malo, doraditi tek nakon umaka
 ---
 
-import Amount from "../../components/Amount.astro";
-
-1. Oguliti <Amount value={10} unit="srednjih krumpira" oneUnit="srednji krumpir" fewUnit="srednja krumpira" rounding="whole" />, narezati ih i staviti kuhati u posoljenu vodu kako bi bili spremni za pire.
-2. Pomiješati <Amount value={500} unit="g" /> mljevene junetine i <Amount value={500} unit="g" /> mljevene svinjetine. Začiniti solju i paprom te dobro promiješati kako bi se začini ravnomjerno rasporedili.
-3. Zagrijati veliku tavu, dodati malo maslinova ulja i pržiti meso 5–7 minuta, dok ne postane jako hrskavo, smeđe i fino izmrvljeno.
-4. Ocijediti hrskavo mljeveno meso i ostaviti ga u cjedilu kako bi ostalo hrskavo.
-5. Obrisati tavu i dodati <Amount value={2.5} unit="žlice" rounding="half" /> sezamova ulja. Dodati <Amount value={5} unit="kom" rounding="whole" /> sitno nasjeckanog češnjaka, <Amount value={12.5} unit="cm" rounding="half" /> sitno nasjeckanog đumbira i <Amount value={4} unit="manjih čili papričica" oneUnit="manju čili papričicu" fewUnit="manje čili papričice" rounding="whole" /> bez sjemenki, sitno nasjeckane. Dodati prstohvat soli i <Amount value={2.5} unit="žlice" rounding="half" /> smeđeg šećera te pržiti 2 minute.
-6. Dodati ocijeđeno meso i promiješati.
-7. Dodati <Amount value={2.5} unit="žlice" rounding="half" /> ribljeg umaka i zagrijati. Dodati koricu <Amount value={2.5} unit="limete" rounding="half" /> i sok od otprilike <Amount value={1} unit="limete" rounding="half" />, zatim <Amount value={8} unit="kom" rounding="whole" /> nasjeckanog mladog luka. Miješati 30 sekundi i ugasiti vatru.
+1. Oguliti 4 srednja krumpira, narezati ih na jednake komade i staviti kuhati u posoljenu vodu kako bi bili spremni za pire.
+2. Pomiješati 200 g mljevene junetine i 200 g mljevene svinjetine. Dodati svježe mljeveni papar i samo mali prstohvat soli pa kratko promiješati, tek toliko da se meso poveže. Sojin i riblji umak dodat će većinu potrebne slanoće.
+3. Dobro zagrijati veliku tavu, dodati malo maslinova ulja i pržiti meso 5–7 minuta, dok ne postane hrskavo, smeđe i fino izmrvljeno.
+4. Ocijediti zapečeno mljeveno meso u cjedilu i ostaviti ga sa strane kako bi zadržalo hrskavost.
+5. Obrisati tavu i dodati 1 žlicu sezamova ulja. Dodati 2 sitno nasjeckana češnja češnjaka, sitno nasjeckan komad đumbira od 5 cm i 1–2 manje čili papričice bez sjemenki. Dodati 1 žlicu smeđeg šećera i pržiti 2 minute bez dodatnog soljenja.
+6. Vratiti ocijeđeno meso u tavu i kratko promiješati.
+7. Dodati 1 žlicu ribljeg umaka i zagrijati. Umiješati naribanu koricu 1 limete i sok od otprilike ⅓ limete, zatim dodati 3 nasjeckana mlada luka. Miješati oko 30 sekundi i ugasiti vatru.
 
 #### Sastojci za umak
 
-- <Amount value={2.5} unit="žlice" rounding="half" /> sojina umaka
-- sok od <Amount value={1.5} unit="limete" rounding="half" />
-- <Amount value={2.5} unit="žličice" rounding="half" /> sezamova ulja
-- <Amount value={2} unit="manjih crvenih čili papričica" oneUnit="manja crvena čili papričica" fewUnit="manje crvene čili papričice" rounding="whole" />; tanko ih narezati
-- <Amount value={1} unit="velika vezica" rounding="half" /> nasjeckanih listova korijandera
-- <Amount value={3} unit="žličice" rounding="half" /> ribljeg umaka
-- <Amount value={2.5} unit="žličice" rounding="half" /> smeđeg šećera
-- <Amount value={2.5} unit="žlice" rounding="half" /> maslinova ulja ili ostatka od cijeđenja mesa
+- 1 žlica sojina umaka
+- sok od ½ limete
+- 1 žličica sezamova ulja
+- ½ manje crvene čili papričice, tanko narezane
+- 1 manja vezica nasjeckanih listova korijandera
+- 1–2 žličice ribljeg umaka, po okusu
+- 1 žličica smeđeg šećera
+- 1 žlica maslinova ulja ili ostatka od cijeđenja mesa
 
-8. Pomiješati sve sastojke za umak i doraditi po okusu.
-9. Od kuhanog krumpira pripremiti pire s <Amount value={80} unit="g" /> maslaca i oko <Amount value={250} unit="ml" /> toplog mlijeka. Posoliti po ukusu.
-10. Poslužiti meso i umak uz pire krumpir ili listove zelene salate.
+8. Pomiješati sve sastojke za umak, najprije s 1 žličicom ribljeg umaka. Kušati pa po potrebi dodati još ribljeg umaka, limete ili šećera. Dodatnu sol dodati samo ako je gotov umak nakon kušanja još nedovoljno slan.
+9. Kuhani krumpir ocijediti i kratko vratiti u topli lonac da višak vlage ispari. Zgnječiti ga s 30 g maslaca i postupno dodavati do 100 ml toplog mlijeka, dok se ne dobije željena tekstura. Tek tada kušati i po potrebi posoliti.
+10. Poslužiti meso i umak uz pire krumpir te po želji dodati listove zelene salate.
