@@ -61,7 +61,7 @@ Moraju biti jedan ravan popis. Ne dijeliti ih na grupe za tijesto, umak ili pril
 Količine zapisivati onako kako se namirnica stvarno kupuje i koristi u kuhinji:
 
 - luk, mrkvu, krumpir, paprike, tikvice i slično navoditi u komadima uz korisnu veličinu, primjerice `2 velika luka`, `3 srednje mrkve` ili `5 srednjih krumpira`;
-- konzervirane namirnice navoditi kao broj i veličinu pakiranja, primjerice `2 limenke od po 400 g`;
+- konzervirane namirnice navoditi ukupnom masom potrebnom za recept, primjerice `800 g sjeckane rajčice`, jer veličina pakiranja nije uvijek jednaka; kod graha i sličnih namirnica jasno napisati odnosi li se masa na sadržaj prije ili nakon cijeđenja;
 - grame zadržati za meso, brašno, šećer, maslac, čokoladu, rižu, tjesteninu i druge namirnice kod kojih je masa precizna ili uobičajena mjera;
 - ne pretvarati precizne slastičarske količine u šalice ili proizvoljne komade.
 
@@ -72,6 +72,20 @@ Ako se povrće skalira, procijeniti praktičan broj komada za svaku ponuđenu ko
 Upute moraju biti potpuno samostalne. Korisnik na mobitelu treba moći kuhati bez vraćanja na shopping sidebar. Zato u koracima ponovno navesti sastojke i precizne količine u trenutku kada se koriste.
 
 Ponavljanje između sidebara i uputa je namjerno i ne smije se automatski uklanjati.
+
+## Veliki recepti i spremanje ostataka
+
+Kada se umak, gulaš ili drugo glavno jelo namjerno priprema u većoj količini za više obroka, upute moraju jasno odvojiti količinu koja se jede odmah od ostatka:
+
+- navesti koliko svježeg priloga treba pripremiti za dvije osobe; za suhu tjesteninu u pravilu koristiti oko `160 g` ukupno, osim ako recept opravdava drukčiju količinu;
+- ne upućivati korisnika da unaprijed skuha sav prilog; tjesteninu i slične priloge pripremiti svježe samo za trenutačni obrok;
+- umak ili glavno jelo koje se sprema odvojiti prije miješanja sa svježim prilogom;
+- najkasnije unutar 2 sata rasporediti ostatke u manje, plitke posude i spremiti ih u hladnjak na temperaturu nižu od 5 °C;
+- zbog strože hrvatske preporuke u receptu navesti najviše 2 dana čuvanja u hladnjaku;
+- kada je jelo prikladno za zamrzavanje, zamrznuti ga u pojedinačnim porcijama bez svježeg priloga; za kuhane mesne umake, gulaše i slična jela u pravilu navesti 2–3 mjeseca;
+- zamrznutu porciju odmrznuti u hladnjaku i podgrijati samo potrebnu količinu, samo jednom, dok cijelo jelo ne bude vruće i dok se iz njega ne počne dizati para; ako se koristi termometar, cilj je oko 74 °C u sredini.
+
+Ove preporuke temelje se na [uputama HZJZ-a za pripremu i čuvanje hrane](https://www.hzjz.hr/sluzba-zdravstvena-ekologija/pravilan-pristup-pripremi-hrane/), [preporukama HAPIH-a za temperaturu hladnjaka i podgrijavanje](https://www.hapih.hr/sigurnost-hrane-tijekom-ljeta/) te [USDA smjernicama za zamrzavanje gotovih jela](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/freezing-and-food-safety).
 
 ## Stil pisanja
 
