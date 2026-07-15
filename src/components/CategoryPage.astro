@@ -1,0 +1,196 @@
+---
+import type { CollectionEntry } from "astro:content";
+import RecipeCard from "./RecipeCard.astro";
+
+interface Props {
+  title: string;
+  recipes: CollectionEntry<"recipes">[];
+}
+
+const { title, recipes } = Astro.props;
+const allTags = [...new Set(recipes.flatMap((recipe) => recipe.data.tags))].sort((a, b) =>
+  a.localeCompare(b, "hr"),
+);
+const durationMax = Math.max(60, ...recipes.map((recipe) => recipe.data.duration));
+const priceMax = Math.max(5, ...recipes.map((recipe) => recipe.data.price));
+const caloriesMax = Math.max(800, ...recipes.map((recipe) => recipe.data.calories));
+---
+
+<section class="page-shell category-page" data-recipe-explorer>
+  <h1 class="sr-only">{title}</h1>
+
+  <div class="explorer-toolbar">
+    <label class="search-field">
+      <span class="sr-only">Pretraži recepte</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+      <input type="search" placeholder="Pretraži po nazivu ili sastojku" data-search />
+    </label>
+    <button class="button button--outline filter-toggle" type="button" aria-expanded="false" data-filter-toggle>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" /></svg>
+      <span>Više</span>
+    </button>
+  </div>
+
+  <div class="filter-panel" data-filter-panel hidden>
+    <div class="filter-grid">
+      <label class="field-group">
+        <span>Sortiranje</span>
+        <select data-sort>
+          <option value="name">Naziv (A–Ž)</option>
+          <option value="duration">Najkraće trajanje</option>
+          <option value="price">Najniža cijena</option>
+          <option value="calories">Najmanje kalorija</option>
+        </select>
+      </label>
+
+      <label class="field-group range-field">
+        <span>Maks. trajanje: <output data-duration-output>{durationMax} min</output></span>
+        <input type="range" min="0" max={durationMax} value={durationMax} step="1" data-duration />
+      </label>
+
+      <label class="field-group range-field">
+        <span>Maks. cijena: <output data-price-output>{priceMax.toFixed(2).replace(".", ",")} €</output></span>
+        <input type="range" min="0" max={priceMax} value={priceMax} step="0.1" data-price />
+      </label>
+
+      <label class="field-group range-field">
+        <span>Maks. kalorije: <output data-calories-output>{caloriesMax} kcal</output></span>
+        <input type="range" min="0" max={caloriesMax} value={caloriesMax} step="10" data-calories />
+      </label>
+    </div>
+
+    {allTags.length > 0 && (
+      <div class="tag-filter">
+        <span>Oznake</span>
+        <div>
+          {allTags.map((tag) => (
+            <button type="button" aria-pressed="false" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <button class="text-button" type="button" data-clear-filters>Očisti filtre</button>
+  </div>
+
+  <div class="results-summary" aria-live="polite" data-results-summary></div>
+  <div class="recipe-grid" data-recipe-grid>
+    {recipes.map((recipe) => <RecipeCard recipe={recipe} />)}
+  </div>
+  <p class="empty-state" data-empty-state hidden>Nijedan recept ne odgovara odabranim filtrima.</p>
+</section>
+
+<script>
+  const explorer = document.querySelector<HTMLElement>("[data-recipe-explorer]");
+
+  if (explorer) {
+    const search = explorer.querySelector<HTMLInputElement>("[data-search]");
+    const toggle = explorer.querySelector<HTMLButtonElement>("[data-filter-toggle]");
+    const panel = explorer.querySelector<HTMLElement>("[data-filter-panel]");
+    const sort = explorer.querySelector<HTMLSelectElement>("[data-sort]");
+    const duration = explorer.querySelector<HTMLInputElement>("[data-duration]");
+    const price = explorer.querySelector<HTMLInputElement>("[data-price]");
+    const calories = explorer.querySelector<HTMLInputElement>("[data-calories]");
+    const durationOutput = explorer.querySelector<HTMLOutputElement>("[data-duration-output]");
+    const priceOutput = explorer.querySelector<HTMLOutputElement>("[data-price-output]");
+    const caloriesOutput = explorer.querySelector<HTMLOutputElement>("[data-calories-output]");
+    const summary = explorer.querySelector<HTMLElement>("[data-results-summary]");
+    const grid = explorer.querySelector<HTMLElement>("[data-recipe-grid]");
+    const empty = explorer.querySelector<HTMLElement>("[data-empty-state]");
+    const clear = explorer.querySelector<HTMLButtonElement>("[data-clear-filters]");
+    const tagButtons = [...explorer.querySelectorAll<HTMLButtonElement>("[data-tag]")];
+    const cards = [...explorer.querySelectorAll<HTMLElement>("[data-recipe-card]")];
+    const selectedTags = new Set<string>();
+
+    const normalize = (value: string) =>
+      value.toLocaleLowerCase("hr").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+
+    const applyFilters = () => {
+      const query = normalize(search?.value ?? "");
+      const maxDuration = Number(duration?.value ?? Infinity);
+      const maxPrice = Number(price?.value ?? Infinity);
+      const maxCalories = Number(calories?.value ?? Infinity);
+
+      const visible = cards.filter((card) => {
+        const searchable = normalize(`${card.dataset.title ?? ""} ${card.dataset.ingredients ?? ""}`);
+        const tags = (card.dataset.tags ?? "").split("|");
+        const matchesTags = selectedTags.size === 0 || [...selectedTags].some((tag) => tags.includes(tag));
+        const matches =
+          (!query || searchable.includes(query)) &&
+          matchesTags &&
+          Number(card.dataset.duration) <= maxDuration &&
+          Number(card.dataset.price) <= maxPrice &&
+          Number(card.dataset.calories) <= maxCalories;
+
+        card.hidden = !matches;
+        return matches;
+      });
+
+      visible.sort((a, b) => {
+        switch (sort?.value) {
+          case "duration":
+            return Number(a.dataset.duration) - Number(b.dataset.duration);
+          case "price":
+            return Number(a.dataset.price) - Number(b.dataset.price);
+          case "calories":
+            return Number(a.dataset.calories) - Number(b.dataset.calories);
+          default:
+            return (a.dataset.title ?? "").localeCompare(b.dataset.title ?? "", "hr");
+        }
+      });
+
+      visible.forEach((card) => grid?.append(card));
+      if (summary) summary.textContent = `${visible.length} ${visible.length === 1 ? "recept" : "recepata"}`;
+      if (empty) empty.hidden = visible.length !== 0;
+    };
+
+    toggle?.addEventListener("click", () => {
+      if (!panel) return;
+      panel.hidden = !panel.hidden;
+      toggle.setAttribute("aria-expanded", String(!panel.hidden));
+      const label = toggle.querySelector("span");
+      if (label) label.textContent = panel.hidden ? "Više" : "Manje";
+    });
+
+    search?.addEventListener("input", applyFilters);
+    sort?.addEventListener("change", applyFilters);
+    duration?.addEventListener("input", () => {
+      if (durationOutput) durationOutput.value = `${duration.value} min`;
+      applyFilters();
+    });
+    price?.addEventListener("input", () => {
+      if (priceOutput) priceOutput.value = `${Number(price.value).toFixed(2).replace(".", ",")} €`;
+      applyFilters();
+    });
+    calories?.addEventListener("input", () => {
+      if (caloriesOutput) caloriesOutput.value = `${calories.value} kcal`;
+      applyFilters();
+    });
+
+    tagButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const tag = button.dataset.tag;
+        if (!tag) return;
+        selectedTags.has(tag) ? selectedTags.delete(tag) : selectedTags.add(tag);
+        button.setAttribute("aria-pressed", String(selectedTags.has(tag)));
+        applyFilters();
+      });
+    });
+
+    clear?.addEventListener("click", () => {
+      if (search) search.value = "";
+      if (sort) sort.value = "name";
+      if (duration) duration.value = duration.max;
+      if (price) price.value = price.max;
+      if (calories) calories.value = calories.max;
+      if (durationOutput && duration) durationOutput.value = `${duration.max} min`;
+      if (priceOutput && price) priceOutput.value = `${Number(price.max).toFixed(2).replace(".", ",")} €`;
+      if (caloriesOutput && calories) caloriesOutput.value = `${calories.max} kcal`;
+      selectedTags.clear();
+      tagButtons.forEach((button) => button.setAttribute("aria-pressed", "false"));
+      applyFilters();
+    });
+
+    applyFilters();
+  }
+</script>

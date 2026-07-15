@@ -1,0 +1,59 @@
+<button
+  class="icon-button wake-lock-button"
+  type="button"
+  aria-label="Drži ekran uključenim"
+  aria-pressed="false"
+  title="Drži ekran uključenim"
+  hidden
+  data-wake-lock
+>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 18h6M10 22h4M8.5 15.5A7 7 0 1 1 15.5 15.5C14.5 16.3 14 17 14 18h-4c0-1-.5-1.7-1.5-2.5Z" />
+  </svg>
+</button>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("[data-wake-lock]");
+
+  if (button && "wakeLock" in navigator) {
+    button.hidden = false;
+    let wakeLock: WakeLockSentinel | null = null;
+    let requested = false;
+
+    const renderState = () => {
+      const active = Boolean(wakeLock && !wakeLock.released);
+      button.setAttribute("aria-pressed", String(active));
+      button.setAttribute("aria-label", active ? "Dopusti gašenje ekrana" : "Drži ekran uključenim");
+      button.title = active ? "Ekran ostaje uključen" : "Drži ekran uključenim";
+    };
+
+    const acquire = async () => {
+      try {
+        wakeLock = await navigator.wakeLock.request("screen");
+        wakeLock.addEventListener("release", renderState, { once: true });
+      } catch {
+        requested = false;
+      }
+      renderState();
+    };
+
+    button.addEventListener("click", async () => {
+      if (requested) {
+        requested = false;
+        await wakeLock?.release();
+        wakeLock = null;
+        renderState();
+        return;
+      }
+
+      requested = true;
+      await acquire();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (requested && document.visibilityState === "visible" && (!wakeLock || wakeLock.released)) {
+        void acquire();
+      }
+    });
+  }
+</script>

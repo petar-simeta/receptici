@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+import CategoryPage from "../components/CategoryPage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const recipes = (await getCollection("recipes"))
+  .filter((recipe) => recipe.data.category === "meal")
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, "hr"));
+---
+
+<BaseLayout
+  title="Obroci"
+  description="Naši recepti za ručak, večeru i svaki dan."
+  activeCategory="meal"
+>
+  <CategoryPage
+    title="Obroci"
+    recipes={recipes}
+  />
+</BaseLayout>

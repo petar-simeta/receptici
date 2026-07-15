@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Receptići
 
-## Getting Started
+Privatna, potpuno statička zbirka recepata za dvoje ljudi. Aplikacija je izrađena u Astrou, a recepti su verzionirani MDX dokumenti u repozitoriju. Nema baze, prijave, administratorskog sučelja ni runtime API-ja.
 
-First, run the development server:
+## Lokalni razvoj
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Provjere prije predaje:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run check
+npm run build
+npm run preview
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Astro generira gotove HTML, CSS i JavaScript datoteke u direktoriju `dist/`.
 
-## Learn More
+## Struktura
 
-To learn more about Next.js, take a look at the following resources:
+- `src/content/recipes/` — jedan MDX dokument po receptu
+- `src/content.config.ts` — obavezna shema i validacija recepata
+- `src/pages/` — Obroci, Slastice i statičke stranice recepata
+- `src/components/` — prikaz, shopping lista, skaliranje i Wake Lock
+- `public/images/recipes/` — stvarne ili privremene slike recepata
+- `public/fonts/` — lokalno posluženi Manrope variable font i licenca
+- `docs/recipe-authoring.md` — pravila za dodavanje i uređivanje recepata
+- `templates/recipe.mdx` — početni predložak novog recepta
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Dodavanje recepta
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Recepti se ne dodaju kroz aplikaciju. Novi recept treba dodati kao MDX datoteku prema uputama u [`docs/recipe-authoring.md`](docs/recipe-authoring.md), a zatim pokrenuti `npm run build`. Git služi kao povijest promjena i sigurnosna kopija sadržaja.
 
-## Deploy on Vercel
+## Kategorije
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `meal` — prikazuje se na naslovnici **Obroci**
+- `dessert` — prikazuje se na stranici **Slastice**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tagovi su dodatne, fleksibilne oznake i ne zamjenjuju glavnu kategoriju.

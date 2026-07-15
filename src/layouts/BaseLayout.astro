@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import Header from "../components/Header.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  activeCategory?: "meal" | "dessert";
+}
+
+const {
+  title = "Receptići",
+  description = "Naša osobna zbirka provjerenih recepata.",
+  activeCategory,
+} = Astro.props;
+const recipes = await getCollection("recipes");
+const recipeLinks = recipes.map((recipe) => `/recipe/${recipe.id}`);
+const pageTitle = title === "Receptići" ? title : `${title} · Receptići`;
+---
+
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0f766e" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <Header activeCategory={activeCategory} recipeLinks={recipeLinks} />
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

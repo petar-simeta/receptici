@@ -1,0 +1,90 @@
+---
+import { formatMeatOption } from "../lib/format";
+
+interface Props {
+  label: string;
+  baseGrams: number;
+  defaultGrams?: number;
+  options: number[];
+}
+
+const { label, baseGrams, defaultGrams = baseGrams, options } = Astro.props;
+---
+
+<section
+  class="recipe-scaler"
+  data-recipe-scaler
+  data-base-grams={baseGrams}
+  data-default-grams={defaultGrams}
+>
+  <p>{label}</p>
+  <div class="segmented-control" role="group" aria-label={label}>
+    {options.map((grams) => (
+      <button
+        type="button"
+        data-meat-option={grams}
+        aria-pressed={grams === defaultGrams ? "true" : "false"}
+      >{formatMeatOption(grams)}</button>
+    ))}
+  </div>
+</section>
+
+<script>
+  import { formatScaledAmount, type RoundingMode } from "../lib/format";
+
+  const scaler = document.querySelector<HTMLElement>("[data-recipe-scaler]");
+
+  if (scaler && scaler.dataset.ready !== "true") {
+    scaler.dataset.ready = "true";
+    const baseGrams = Number(scaler.dataset.baseGrams);
+    const defaultGrams = Number(scaler.dataset.defaultGrams ?? baseGrams);
+    const buttons = [...scaler.querySelectorAll<HTMLButtonElement>("[data-meat-option]")];
+    const validOptions = buttons.map((button) => Number(button.dataset.meatOption));
+
+    const updateRecipe = (grams: number) => {
+      const factor = grams / baseGrams;
+
+      document.querySelectorAll<HTMLElement>("[data-scale-value]").forEach((element) => {
+        const baseValue = Number(element.dataset.scaleValue);
+        const unit = element.dataset.scaleUnit ?? "";
+        const rounding = (element.dataset.scaleRounding ?? "smart") as RoundingMode;
+        element.textContent = formatScaledAmount(baseValue * factor, unit, rounding);
+      });
+
+      document.querySelectorAll<HTMLElement>("[data-yield-amount]").forEach((element) => {
+        const baseYield = Number(element.dataset.yieldAmount);
+        const scaledYield = baseYield * factor;
+        element.textContent = new Intl.NumberFormat("hr-HR", { maximumFractionDigits: 1 }).format(scaledYield);
+
+        const unit = element.parentElement?.querySelector<HTMLElement>("[data-yield-unit]");
+        if (unit) {
+          const lastTwo = scaledYield % 100;
+          const last = scaledYield % 10;
+          const usesFew = Number.isInteger(scaledYield) && last >= 2 && last <= 4 && !(lastTwo >= 12 && lastTwo <= 14);
+          unit.textContent = scaledYield === 1
+            ? unit.dataset.yieldOne ?? unit.dataset.yieldMany ?? ""
+            : usesFew
+              ? unit.dataset.yieldFew ?? unit.dataset.yieldMany ?? ""
+              : unit.dataset.yieldMany ?? "";
+        }
+      });
+
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(Number(button.dataset.meatOption) === grams));
+      });
+
+      const url = new URL(window.location.href);
+      if (grams === defaultGrams) url.searchParams.delete("meso");
+      else url.searchParams.set("meso", String(grams));
+      window.history.replaceState({}, "", url);
+      document.dispatchEvent(new CustomEvent("recipe:scaled", { detail: { grams, factor } }));
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => updateRecipe(Number(button.dataset.meatOption)));
+    });
+
+    const requested = Number(new URL(window.location.href).searchParams.get("meso"));
+    updateRecipe(validOptions.includes(requested) ? requested : defaultGrams);
+  }
+</script>

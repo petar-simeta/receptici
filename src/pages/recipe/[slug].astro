@@ -1,0 +1,129 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RecipeScaler from "../../components/RecipeScaler.astro";
+import ScaledValue from "../../components/ScaledValue.astro";
+import ShoppingList from "../../components/ShoppingList.astro";
+import TagBadge from "../../components/TagBadge.astro";
+import WakeLockButton from "../../components/WakeLockButton.astro";
+import { formatPrice, formatYieldUnit } from "../../lib/format";
+
+export async function getStaticPaths() {
+  const recipes = await getCollection("recipes");
+  return recipes.map((recipe) => ({
+    params: { slug: recipe.id },
+    props: { recipe },
+  }));
+}
+
+interface Props {
+  recipe: CollectionEntry<"recipes">;
+}
+
+const { recipe } = Astro.props;
+const { Content } = await render(recipe);
+const { data } = recipe;
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.subtitle}
+  activeCategory={data.category}
+>
+  <article class="page-shell recipe-page">
+    <header class="recipe-heading">
+      <div>
+        <a class="recipe-back-link" href={data.category === "meal" ? "/" : "/slastice"}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+          {data.category === "meal" ? "Vrati se na sve obroke" : "Vrati se na sve slastice"}
+        </a>
+        <h1>{data.title}</h1>
+        <p>{data.subtitle}</p>
+      </div>
+      <WakeLockButton />
+    </header>
+
+    {data.scaling && (
+      <RecipeScaler
+        label={data.scaling.label}
+        baseGrams={data.scaling.baseGrams}
+        defaultGrams={data.scaling.defaultGrams}
+        options={data.scaling.options}
+      />
+    )}
+
+    <div class="recipe-layout">
+      <aside class="recipe-sidebar">
+        <section class="panel ingredients-panel">
+          <h2>Sastojci</h2>
+          <ul>
+            {data.ingredients.map((ingredient) => (
+              <li>
+                <strong>{ingredient.name}</strong>
+                {(ingredient.scaled || ingredient.quantity) && (
+                  <span>
+                    {" — "}
+                    {ingredient.scaled ? (
+                      <ScaledValue
+                        value={ingredient.scaled.value}
+                        unit={ingredient.scaled.unit}
+                        rounding={ingredient.scaled.rounding}
+                      />
+                    ) : ingredient.quantity}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+          <ShoppingList ingredients={data.ingredients} />
+        </section>
+
+        <section class="panel recipe-meta-panel">
+          <div>
+            <h2>Oznake</h2>
+            <div class="tag-list">
+              {data.tags.map((tag) => <TagBadge tag={tag} />)}
+            </div>
+          </div>
+
+          <div>
+            <h2>Detalji</h2>
+            <dl class="recipe-meta">
+              <div>
+                <dt>Trajanje</dt>
+                <dd>{data.duration} min</dd>
+              </div>
+              <div>
+                <dt>Za koliko</dt>
+                <dd>
+                  Za <span data-yield-amount={data.yield.amount}>{data.yield.amount}</span>{" "}
+                  <span
+                    data-yield-unit
+                    data-yield-one={data.yield.oneUnit}
+                    data-yield-few={data.yield.fewUnit}
+                    data-yield-many={data.yield.unit}
+                  >{formatYieldUnit(data.yield.amount, data.yield)}</span>
+                </dd>
+              </div>
+              <div>
+                <dt>Cijena</dt>
+                <dd>{formatPrice(data.price)} po porciji</dd>
+              </div>
+              <div>
+                <dt>Kalorije</dt>
+                <dd>{data.calories} kcal po porciji</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+      </aside>
+
+      <section class="panel instructions-panel">
+        <h2>Priprema</h2>
+        <div class="recipe-markdown">
+          <Content />
+        </div>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

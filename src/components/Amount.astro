@@ -1,0 +1,17 @@
+---
+import { formatScaledAmount, type RoundingMode } from "../lib/format";
+
+interface Props {
+  value: number;
+  unit?: string;
+  rounding?: RoundingMode;
+}
+
+const { value, unit = "", rounding = "smart" } = Astro.props;
+---
+
+<span
+  data-scale-value={value}
+  data-scale-unit={unit}
+  data-scale-rounding={rounding}
+>{formatScaledAmount(value, unit, rounding)}</span>

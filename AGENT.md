@@ -1,46 +1,49 @@
-# Receptici
+# Receptići
 
-## Project Context
+## Kontekst projekta
 
-- This is a private recipe app used only by the owner and his wife.
-- The main purpose is a personal recipe archive with quick access and shopping help.
-- The app is hosted on Vercel at `receptici.vercel.app`.
-- Recipes are entered manually in most cases.
-- Losing recipes would be painful, so data safety matters, but this is not a high-security app.
+- Ovo je osobna zbirka recepata vlasnika i njegove supruge.
+- Najvažniji tok je brzo pronaći recept, provjeriti sastojke i pratiti upute u kuhinji.
+- Projekt je potpuno statička Astro aplikacija bez baze, autentikacije i runtime API-ja.
+- Recepti se dodaju isključivo kao verzionirane MDX datoteke uz pomoć Codexa.
+- Očekuje se približno 15–20, a najviše oko 50 recepata.
 
-## Product Priorities
+## Prioriteti
 
-- Prioritize UX improvements over visual redesign.
-- Preserve and improve the mobile experience.
-- Prefer changes that improve perceived and real performance.
-- Keep the app simple; avoid unnecessary features and complexity.
-- Treat occasional slow page loads as a real product concern worth investigating.
+- Brzina i mobilni UX imaju prednost pred vizualnim redizajnom.
+- Održavati aplikaciju jednostavnom i statičkom.
+- Ne uvoditi bazu, CMS, administratorsko sučelje, login ili CRUD bez izričitog zahtjeva.
+- Čuvati postojeće slugove kako se ne bi lomili spremljeni URL-ovi.
+- Shopping lista, skaliranje i Wake Lock moraju raditi bez React runtimea.
 
-## Domain Rules
+## Pravila sadržaja
 
-- Recipe fields like subtitle, duration, price, rating, and calories can stay optional.
-- Slugs may change when the recipe title changes.
-- Tags should stay flexible and user-created, but duplicates that differ only by casing should be avoided.
-- Current tag UX is good: pick existing tags or add a new one inline.
-- The current shopping list feature is sufficient and does not need expansion unless a clear issue appears.
+- Prije dodavanja ili uređivanja recepta obavezno pročitati `docs/recipe-authoring.md`.
+- Svaki recept mora imati glavnu kategoriju `meal` ili `dessert`.
+- Svaki recept mora imati broj osoba, kriški, keksa ili drugu praktičnu količinu prinosa.
+- Svaki recept mora imati sliku i alternativni tekst; do dostave stvarne fotografije koristiti odgovarajuću zadanu ilustraciju.
+- Ocjene ne postoje i ne smiju se vraćati.
+- Cijena i kalorije ostaju iskazane po porciji.
+- Shopping sastojci u frontmatteru i količine u uputama namjerno su odvojeni i smiju se ponavljati.
+- Shopping sastojci moraju biti ravan popis svega što treba kupiti ili provjeriti kod kuće.
+- Upute moraju biti samostalne: tijekom kuhanja moraju navoditi potrebne sastojke i precizne količine.
+- Začini u shopping popisu mogu biti općeniti, dok upute moraju sadržavati konkretne količine.
+- Koraci se pišu hrvatskim infinitivom i moraju biti konzistentni unutar cijelog recepta.
 
-## Usage Profile
+## Skaliranje mesa
 
-- The app currently has 5 recipes and is expected to stay under 50 total, realistically around 15-20.
-- The main usage flow is: find a recipe, check ingredients, and follow the cooking instructions.
-- The user does not care about recipe import or print features.
+- Skaliranje je opcionalno i ne uključuje se automatski za svaki recept s mesom.
+- Kod svakog novog recepta s mesom obavezno pitati korisnika želi li mogućnost skaliranja.
+- Ako se skaliranje koristi, osnovni recept se u pravilu priprema za 1000 g ukupnog mesa.
+- Početne opcije su 500 g, 1000 g i 1500 g.
+- Skalirati samo količine označene komponentom `Amount` ili strukturiranim `scaled` podatkom.
+- Nikada automatski ne skalirati temperaturu, trajanje, veličinu posude ili tekstualne vrijednosti poput „po ukusu”.
+- Nakon skaliranja moraju se uskladiti shopping popis, količine u uputama i broj osoba.
 
-## Operational Notes
+## Implementacija i provjera
 
-- There is no backup flow set up for the database yet.
-- Data loss would be annoying, so backup improvements are valuable, but this is not a high-security system.
-
-## Language And Writing
-
-- The app UI can mix Croatian and some natural-sounding English labels when that feels better.
-- Code, comments, identifiers, and class names should be in English.
-
-## Working Notes
-
-- Do not add unnecessary process or documentation.
-- Keep changes pragmatic and aligned with the real use case of a two-person household app.
+- Kod, komentari, identifikatori i nazivi CSS klasa pišu se na engleskom.
+- Korisničko sučelje i recepti pišu se prirodnim hrvatskim jezikom.
+- Klikljive kontrole moraju imati pointer cursor, vidljiv fokus i dovoljno velik mobilni touch target.
+- Nakon promjene sadržaja ili koda pokrenuti `npm run check` i `npm run build`.
+- Ne pushati niti objavljivati promjene bez izričitog zahtjeva korisnika.

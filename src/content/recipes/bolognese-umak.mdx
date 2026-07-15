@@ -1,0 +1,141 @@
+---
+title: Bolognese umak
+subtitle: Bogati, mesnati umak koji se polako kuha s povrćem, vinom i rajčicom
+image: /images/recipes/bolognese-umak.webp
+imageAlt: Bolognese umak poslužen s tagliatellama u keramičkom tanjuru
+category: meal
+duration: 240
+price: 2.7
+calories: 720
+yield:
+  amount: 8
+  unit: osoba
+  oneUnit: osobu
+  fewUnit: osobe
+tags:
+  - Ručak
+  - Tjestenina
+  - Meso
+ingredients:
+  - name: Mljevena junetina
+    quantity: 500 g
+    scaled:
+      value: 500
+      unit: g
+  - name: Mljevena svinjetina
+    quantity: 500 g
+    scaled:
+      value: 500
+      unit: g
+  - name: Luk
+    quantity: oko 300 g
+    scaled:
+      value: 300
+      unit: g
+  - name: Mrkva
+    quantity: oko 200 g
+    scaled:
+      value: 200
+      unit: g
+  - name: Stabljike celera
+    quantity: oko 150 g
+    scaled:
+      value: 150
+      unit: g
+  - name: Češnjak
+    quantity: 3 češnja
+    scaled:
+      value: 3
+      unit: kom
+      rounding: half
+  - name: Koncentrat rajčice
+    quantity: 3 pune žlice
+    scaled:
+      value: 3
+      unit: žlice
+      rounding: half
+  - name: Pasirana rajčica
+    quantity: 500 ml
+    scaled:
+      value: 500
+      unit: ml
+  - name: Suho crno vino
+    quantity: 250 ml
+    scaled:
+      value: 250
+      unit: ml
+  - name: Goveđi temeljac
+    quantity: do 700 ml
+    scaled:
+      value: 700
+      unit: ml
+  - name: Punomasno mlijeko
+    quantity: 120 ml
+    scaled:
+      value: 120
+      unit: ml
+  - name: Maslinovo ulje
+    quantity: 2 žlice
+    scaled:
+      value: 2
+      unit: žlice
+      rounding: half
+  - name: Maslac
+    quantity: do 35 g
+    scaled:
+      value: 35
+      unit: g
+  - name: Suha tjestenina
+    quantity: oko 750 g
+    scaled:
+      value: 750
+      unit: g
+  - name: Parmezan ili Grana Padano
+    quantity: po želji
+  - name: Lovorov list
+  - name: Timijan
+  - name: Sol
+  - name: Crni papar
+scaling:
+  label: Količina mesa
+  baseGrams: 1000
+  defaultGrams: 1000
+  options:
+    - 500
+    - 1000
+    - 1500
+---
+
+import Amount from "../../components/Amount.astro";
+
+#### Koje meso koristiti?
+
+Za najbolji omjer okusa i sočnosti koristiti <Amount value={500} unit="g" /> mljevene junetine i <Amount value={500} unit="g" /> mljevene svinjetine, po mogućnosti s ukupno 15–20 % masnoće. Junetina daje izražen mesni okus, a svinjetina mekoću i sočnost.
+
+Može se koristiti i <Amount value={1000} unit="g" /> mljevene junetine od plećke ili vrata. U tom slučaju odabrati meso koje nije potpuno nemasno, upotrijebiti <Amount value={35} unit="g" /> maslaca umjesto <Amount value={25} unit="g" /> te tijekom kuhanja po potrebi dodati malo više temeljca. Punomasno mlijeko na kraju ne preskakati.
+
+#### Priprema i soffritto
+
+1. Vrlo sitno nasjeckati <Amount value={300} unit="g" /> luka, <Amount value={200} unit="g" /> mrkve i <Amount value={150} unit="g" /> stabljika celera, na komadiće približno veličine zrna riže. Sitno nasjeckati ili protisnuti <Amount value={3} unit="kom" rounding="half" /> češnjaka.
+2. U širokom loncu zagrijati <Amount value={2} unit="žlice" rounding="half" /> maslinovog ulja i otopiti <Amount value={25} unit="g" /> maslaca na laganoj vatri *(oko 3 od 9 na indukciji)*. Dodati luk, mrkvu, celer i mali prstohvat soli pa pirjati 15–20 minuta uz povremeno miješanje. Povrće treba potpuno omekšati i postati lagano slatkasto, bez tamnjenja.
+
+#### Meso i osnova umaka
+
+3. Pojačati vatru na jaku *(oko 7 od 9)*. Dodati <Amount value={500} unit="g" /> mljevene junetine i <Amount value={500} unit="g" /> mljevene svinjetine. Ako lonac nije dovoljno širok, meso zapeći u dvije ture. Rasporediti ga po dnu, ostaviti 1–2 minute bez miješanja, zatim ga razlomiti kuhačom i peći ukupno 10–15 minuta, dok ne dobije smeđe dijelove i dok višak tekućine ne ispari.
+4. Dodati <Amount value={1} unit="žličicu" rounding="half" /> soli i svježe mljeveni crni papar pa promiješati i peći još 30 sekundi. Ne dodavati više soli na početku jer temeljac može biti slan, a umak će se reducirati.
+5. Smanjiti vatru na srednju *(oko 5 od 9)*. Dodati <Amount value={3} unit="kom" rounding="half" /> nasjeckanog češnjaka i miješati 30–45 sekundi, samo dok ne zamiriše. Dodati <Amount value={3} unit="žlice" rounding="half" /> koncentrata rajčice i pržiti 2–3 minute na srednjoj vatri, dok malo ne potamni i izgubi sirovu kiselost.
+6. Uliti <Amount value={250} unit="ml" /> suhog crnog vina, pojačati vatru i kuhačom sastrugati smeđe tragove s dna. Kuhati 5–8 minuta, dok se vino ne reducira barem na polovicu i ne izgubi jak miris alkohola.
+7. Dodati <Amount value={500} unit="ml" /> pasirane rajčice, <Amount value={600} unit="ml" /> goveđeg temeljca, <Amount value={1} unit="kom" rounding="half" /> lovorova lista i <Amount value={0.5} unit="žličice" rounding="half" /> suhog timijana. Pustiti da umak počne lagano ključati, zatim odmah smanjiti vatru.
+
+#### Sporo kuhanje
+
+8. Kuhati umak 2½–3 sata na vrlo laganoj vatri *(oko 2–3 od 9)*, bez poklopca ili s poklopcem odškrinutim nekoliko centimetara. Površina treba samo povremeno pustiti mali mjehurić, bez snažnog ključanja. Svakih 20–30 minuta promiješati i prijeći kuhačom po dnu lonca.
+9. Ako se umak prerano zgusne, postupno dodavati dio od preostalih <Amount value={100} unit="ml" /> vrućeg temeljca ili malo vode. Ako je nakon 2 sata još rijedak, maknuti poklopac i zadnjih 20–30 minuta kuhati na malo jačoj vatri, uz češće miješanje.
+10. Izvaditi lovorov list. Dodati <Amount value={120} unit="ml" /> punomasnog mlijeka, dobro promiješati i kuhati još 10–15 minuta na vrlo laganoj vatri. Nakon dodavanja mlijeka ne dopustiti jako ključanje.
+11. Kušati umak i doraditi solju i svježe mljevenim crnim paprom. Ako je još izraženo kiseo, najprije ga kuhati dodatnih 10 minuta; zatim po potrebi dodati malo maslaca ili još malo mlijeka. Šećer ne dodavati osim kao posljednju mogućnost.
+
+#### Tjestenina i posluživanje
+
+12. Pred kraj kuhanja umaka skuhati <Amount value={750} unit="g" /> suhe tagliatelle, pappardelle, rigatone, penne ili špagete u dobro posoljenoj vodi, otprilike 1 minutu kraće od vremena navedenog na pakiranju. Prije cijeđenja sačuvati barem jednu šalicu vode od kuhanja. Tjesteninu ocijediti bez ispiranja.
+13. U veliku tavu ili lonac staviti količinu umaka potrebnu za obrok, dodati kuhanu tjesteninu i nekoliko žlica vode od kuhanja. Miješati 1–2 minute na srednje laganoj vatri, dok se umak ne primi za tjesteninu. Po potrebi dodati još malo vode od kuhanja i poslužiti s naribanim parmezanom ili Grana Padanom.
+14. Ostatak umaka brzo ohladiti i čuvati u zatvorenoj posudi u hladnjaku do 3 dana ili zamrznuti bez tjestenine do 3 mjeseca. Podgrijavati na laganoj vatri uz malo vode, povremeno miješajući.
