@@ -84,7 +84,7 @@ Kada se umak, gulaš ili drugo glavno jelo namjerno priprema u većoj količini 
 - najkasnije unutar 2 sata rasporediti ostatke u manje, plitke posude i spremiti ih u hladnjak na temperaturu nižu od 5 °C;
 - zbog strože hrvatske preporuke u receptu navesti najviše 2 dana čuvanja u hladnjaku;
 - kada je jelo prikladno za zamrzavanje, zamrznuti ga u pojedinačnim porcijama bez svježeg priloga; za kuhane mesne umake, gulaše i slična jela u pravilu navesti 2–3 mjeseca;
-- zamrznutu porciju odmrznuti u hladnjaku i podgrijati samo potrebnu količinu, samo jednom, dok cijelo jelo ne bude vruće i dok se iz njega ne počne dizati para; ako se koristi termometar, cilj je oko 74 °C u sredini.
+- zamrznutu porciju odmrznuti u hladnjaku i podgrijati samo potrebnu količinu, samo jednom, dok cijelo jelo ne bude vruće i dok se iz njega ne počne dizati para.
 
 Ove preporuke temelje se na [uputama HZJZ-a za pripremu i čuvanje hrane](https://www.hzjz.hr/sluzba-zdravstvena-ekologija/pravilan-pristup-pripremi-hrane/), [preporukama HAPIH-a za temperaturu hladnjaka i podgrijavanje](https://www.hapih.hr/sigurnost-hrane-tijekom-ljeta/) te [USDA smjernicama za zamrzavanje gotovih jela](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/freezing-and-food-safety).
 
