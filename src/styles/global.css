@@ -497,6 +497,10 @@ select {
 }
 
 .recipe-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.9rem;
   padding: 0.4rem 1.35rem 1.35rem;
 }
 
@@ -522,7 +526,7 @@ select {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.5rem;
-  margin-top: 0.9rem;
+  margin-top: auto;
   padding-top: 0.9rem;
   border-top: 1px solid var(--border);
   color: var(--muted);
@@ -1064,7 +1068,17 @@ select {
   }
 
   .recipe-card__link {
+    height: auto;
     min-height: 0;
+  }
+
+  .recipe-card__body {
+    display: block;
+    flex: initial;
+  }
+
+  .recipe-card__details {
+    margin-top: 0.9rem;
   }
 
   .recipe-heading {
