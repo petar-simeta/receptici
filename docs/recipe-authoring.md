@@ -61,6 +61,10 @@ Moraju biti jedan ravan popis. Ne dijeliti ih na grupe za tijesto, umak ili pril
 
 Količine zapisivati onako kako se namirnica stvarno kupuje i koristi u kuhinji:
 
+- **ne navoditi vodu u shopping sastojcima**, bez obzira koristi li se nekoliko žlica ili nekoliko litara; vodu iz slavine, vruću vodu i vodu od kuhanja spominjati samo u uputama, u trenutku kada se koriste;
+- ako se voda može po želji zamijeniti kupovnim temeljcem, u shopping popisu navesti samo temeljac i jasno ga označiti kao opcionalan;
+- svaku informaciju koja određuje **što točno treba kupiti** zapisati izravno uz shopping sastojak: sortu jabuke, preporučeni komad mesa, masnoću mljevenog mesa, vrstu riže, određeni proizvod ili prikladnu zamjenu;
+- kupovne informacije ne odgađati do uputa za pripremu; kada korisnik počne kuhati, treba se moći pretpostaviti da je već kupio odgovarajuće namirnice;
 - luk, mrkvu, krumpir, paprike, tikvice i slično navoditi u komadima uz korisnu veličinu, primjerice `2 velika luka`, `3 srednje mrkve` ili `5 srednjih krumpira`;
 - konzervirane namirnice navoditi ukupnom masom potrebnom za recept, primjerice `800 g sjeckane rajčice`, jer veličina pakiranja nije uvijek jednaka; kod graha i sličnih namirnica jasno napisati odnosi li se masa na sadržaj prije ili nakon cijeđenja;
 - grame zadržati za meso, brašno, šećer, maslac, čokoladu, rižu, tjesteninu i druge namirnice kod kojih je masa precizna ili uobičajena mjera;
@@ -73,6 +77,8 @@ Ako se povrće skalira, procijeniti praktičan broj komada za svaku ponuđenu ko
 Upute moraju biti potpuno samostalne. Korisnik na mobitelu treba moći kuhati bez vraćanja na shopping sidebar. Zato u koracima ponovno navesti sastojke i precizne količine u trenutku kada se koriste.
 
 Ponavljanje između sidebara i uputa je namjerno i ne smije se automatski uklanjati.
+
+U uputama ne ponavljati savjet o kupnji sorte ili komada mesa ako više ne utječe na kuhanje. Primjerice, shopping popis treba reći `Čvrste jabuke (Granny Smith ili Jonagold) — 4 srednje`, dok upute zatim jednostavno koriste `4 srednje jabuke`. Iznimka je samo informacija koja nakon kupnje mijenja tehniku, vrijeme ili količinu pripreme.
 
 ## Veliki recepti i spremanje ostataka
 
@@ -235,6 +241,8 @@ Prije predaje provjeriti:
 - pojavljuje li se recept na ispravnoj stranici;
 - vodi li kartica na ispravan slug;
 - sadrži li shopping popis sve potrebne namirnice;
+- je li voda izostavljena iz shopping popisa i navedena samo u uputama;
+- jesu li sorte, posebni komadi mesa i druge odluke o kupnji vidljive u shopping popisu prije početka kuhanja;
 - može li se kuhati samo čitajući upute;
 - radi li kopiranje shopping liste;
 - ako postoji scaling, mijenjaju li se sidebar, upute i broj osoba;
